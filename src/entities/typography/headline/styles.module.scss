@@ -1,0 +1,9 @@
+@use '@/shared/styles/variables.scss' as variables;
+
+.headline {
+  font-family: 'LT Remark';
+  font-weight: 400;
+  font-size: 56px;
+  line-height: 110%;
+  color: variables.$primary-color;
+}
