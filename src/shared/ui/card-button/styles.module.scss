@@ -59,6 +59,11 @@
     height: 44px;
 
     background: rgba(32, 51, 98, 0.1);
+    transition: background-color 120ms ease-in-out;
     border-radius: 12px;
+  }
+
+  &:hover .arrow {
+    background: variables.$primary-color;
   }
 }
