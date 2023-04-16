@@ -22,12 +22,13 @@
     background-color: var(--accent-color);
     border-radius: 15px;
     display: inline-flex;
-    align-items: end;
+    align-items: flex-end;
     height: 54px;
 
     @media screen and (max-width: variables.$breakpoint-tablet) {
       padding: 0 8px;
       height: 36px;
+      border-radius: 8px;
     }
   }
 }

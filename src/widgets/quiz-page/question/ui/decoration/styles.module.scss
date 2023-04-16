@@ -1,0 +1,27 @@
+@use '@/shared/styles/variables.scss' as variables;
+
+.decoration {
+  position: relative;
+
+  .standalone {
+    display: block;
+  }
+
+  .mobile {
+    display: none;
+  }
+
+  @media screen and (max-width: variables.$breakpoint-tablet) {
+    aspect-ratio: 375 / 240;
+    width: 100%;
+    height: auto;
+
+    .standalone {
+      display: none;
+    }
+
+    .mobile {
+      display: block;
+    }
+  }
+}

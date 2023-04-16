@@ -1,6 +1,7 @@
 import React from 'react'
 import QuizPageWrapper from '@/widgets/quiz-page/wrapper'
 import QuestionContent from '@/widgets/quiz-page/question/ui/content'
+import QuestionDecoration from '@/widgets/quiz-page/question/ui/decoration'
 
 export default function Quiz() {
   const [questionNumber, setQuestionNumber] = React.useState(1)
@@ -10,9 +11,9 @@ export default function Quiz() {
       <QuestionContent 
         questionNumber={questionNumber}
       />
-      {/* <QuestionDecoration 
+      <QuestionDecoration
         questionNumber={questionNumber}
-      /> */}
+      />
     </QuizPageWrapper>
   )
 }
