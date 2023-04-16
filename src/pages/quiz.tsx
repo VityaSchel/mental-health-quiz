@@ -1,19 +1,18 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '@/styles/Home.module.css'
-import CardButton from '@/shared/ui/card-button'
-import Headline from '@/entities/typography/headline'
+import React from 'react'
+import QuizPageWrapper from '@/widgets/quiz-page/wrapper'
+import QuestionContent from '@/widgets/quiz-page/question/ui/content'
 
 export default function Quiz() {
+  const [questionNumber, setQuestionNumber] = React.useState(1)
+
   return (
-    <>
-      <Headline color='rgba(138, 172, 251, 1)'>Как вы оцениваете уровень <strong>стресса</strong> в вашей повседневной жизни?</Headline>
-      <CardButton
-        color='rgba(58, 223, 95, 1)'
-        title='Низкий 🌈'
-        caption='Редко сталкиваюсь со стрессом'
+    <QuizPageWrapper>
+      <QuestionContent 
+        questionNumber={questionNumber}
       />
-      <CardButton></CardButton>
-    </>
+      {/* <QuestionDecoration 
+        questionNumber={questionNumber}
+      /> */}
+    </QuizPageWrapper>
   )
 }
