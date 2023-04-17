@@ -9,6 +9,6 @@
   @media screen and (max-width: variables.$breakpoint-tablet) {
     flex-direction: column-reverse;
     background-image: none;
-    background-color: rgba(243, 245, 251, 1);
+    background-color: variables.$background-color;
   }
 }

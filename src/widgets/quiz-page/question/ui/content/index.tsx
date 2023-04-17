@@ -2,6 +2,8 @@ import { quizQuestions } from '@/widgets/quiz-page/question/model/questions'
 import styles from './styles.module.scss'
 import Headline from '@/entities/typography/headline'
 import CardButton from '@/shared/ui/card-button'
+import { MdOutlineArrowBack } from 'react-icons/md'
+import { Button } from '@/shared/ui/button'
 
 export default function QuestionContent({ questionNumber }: { questionNumber: number }) {
   const question = quizQuestions[questionNumber - 1]
@@ -14,7 +16,7 @@ export default function QuestionContent({ questionNumber }: { questionNumber: nu
         >
           <span dangerouslySetInnerHTML={{ __html: question.text }} />
         </Headline>
-        <span className={styles.hint}>Выберите вариант который больше всего вам соответствует</span>
+        <span className={styles.hint}>{question.subtitle}</span>
       </div>
       <div className={styles.content}>
         {question.options.map(question => (
@@ -24,6 +26,9 @@ export default function QuestionContent({ questionNumber }: { questionNumber: nu
             caption={question.caption}
           />
         ))}
+      </div>
+      <div className={styles.action}>
+        {questionNumber > 1 && <Button variant='text'><MdOutlineArrowBack /> Назад</Button>}
       </div>
     </div>
   )

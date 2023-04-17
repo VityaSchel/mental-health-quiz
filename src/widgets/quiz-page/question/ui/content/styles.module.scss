@@ -7,9 +7,12 @@
   align-items: flex-start;
   padding: 120px 80px 60px;
   gap: 32px;
+  min-width: 760px;
 
   @media screen and (max-width: variables.$breakpoint-tablet) {
     padding: 16px;
+    align-items: stretch;
+    min-width: unset;
   }
 
   .top {
@@ -38,5 +41,15 @@
     align-items: stretch;
     padding: 0px;
     gap: 16px;
+  }
+
+  .action {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+
+    & > *:last-child {
+      flex: 1;
+    }
   }
 }

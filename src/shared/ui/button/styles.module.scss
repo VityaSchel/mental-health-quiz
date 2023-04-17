@@ -1,0 +1,22 @@
+@use '@/shared/styles/variables.scss' as variables;
+
+.button {
+  border-radius: 99px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  padding: 0 12px;
+  cursor: pointer;
+  
+  border: 0;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 17px;
+
+  &.text {
+    background-color: transparent;
+    color: variables.$button-default;
+  }
+}

@@ -1,5 +1,8 @@
+@use '@/shared/styles/variables.scss' as variables;
+
 html, body {
   margin: 0;
+  background-color: variables.$background-color;
 }
 
 * {
