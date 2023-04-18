@@ -9,6 +9,14 @@ import Question4DecorationStandalone from '@/assets/backgrounds/standalone4.svg'
 import Question4DecorationMobile from '@/assets/backgrounds/mobile4.svg'
 import Question5DecorationStandalone from '@/assets/backgrounds/standalone5.svg'
 import Question5DecorationMobile from '@/assets/backgrounds/mobile5.svg'
+import Question6DecorationStandalone from '@/assets/backgrounds/standalone6.svg'
+import Question6DecorationMobile from '@/assets/backgrounds/mobile6.svg'
+import Question7DecorationStandalone from '@/assets/backgrounds/standalone7.svg'
+import Question7DecorationMobile from '@/assets/backgrounds/mobile7.svg'
+import Question8DecorationStandalone from '@/assets/backgrounds/standalone8.svg'
+import Question8DecorationMobile from '@/assets/backgrounds/mobile8.svg'
+import Question9DecorationStandalone from '@/assets/backgrounds/standalone9.svg'
+import Question9DecorationMobile from '@/assets/backgrounds/mobile9.svg'
 
 const decorationSources: {
   standalone: JSX.Element
@@ -33,6 +41,22 @@ const decorationSources: {
   {
     standalone: <Question5DecorationStandalone className={styles.standalone} />,
     mobile: <Question5DecorationMobile className={styles.mobile} />
+  },
+  {
+    standalone: <Question6DecorationStandalone className={styles.standalone} />,
+    mobile: <Question6DecorationMobile className={styles.mobile} />
+  },
+  {
+    standalone: <Question7DecorationStandalone className={styles.standalone} />,
+    mobile: <Question7DecorationMobile className={styles.mobile} />
+  },
+  {
+    standalone: <Question8DecorationStandalone className={styles.standalone} />,
+    mobile: <Question8DecorationMobile className={styles.mobile} />
+  },
+  {
+    standalone: <Question9DecorationStandalone className={styles.standalone} />,
+    mobile: <Question9DecorationMobile className={styles.mobile} />
   }
 ]
 

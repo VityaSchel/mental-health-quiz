@@ -1,18 +1,33 @@
 import React from 'react'
-import QuizPageWrapper from '@/widgets/quiz-page/wrapper'
-import QuestionContent from '@/widgets/quiz-page/question/ui/content'
-import QuestionDecoration from '@/widgets/quiz-page/question/ui/decoration'
 import { useRouter } from 'next/router'
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next'
 
+import { quizQuestions } from '@/widgets/quiz-page/question/model/questions'
+import QuizPageWrapper from '@/widgets/quiz-page/wrapper'
+import QuestionContent from '@/widgets/quiz-page/question/ui/content'
+import QuestionDecoration from '@/widgets/quiz-page/question/ui/decoration'
+
+const questionsLength = quizQuestions.length
 export default function Quiz() {
   const router = useRouter()
   const questionNumber = Number(router.query.question)
+  const lastQuestion = questionNumber === questionsLength-1
+  const nextPage = lastQuestion ? '/quiz/result' : `/quiz/${questionNumber + 1}`
+
+  React.useEffect(() => {
+    router.prefetch(nextPage)
+  }, [router, nextPage])
+  
+  const handleSubmit = (answerKey: string | string[]) => {
+    router.push(nextPage)
+  }
 
   return (
     <QuizPageWrapper>
       <QuestionContent 
         questionNumber={questionNumber}
+        onSubmit={handleSubmit}
+        onGoBack={() => router.back()}
       />
       <QuestionDecoration
         questionNumber={questionNumber}

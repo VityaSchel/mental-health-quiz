@@ -5,7 +5,11 @@ import CardButton from '@/shared/ui/card-button'
 import { MdOutlineArrowBack } from 'react-icons/md'
 import { Button } from '@/shared/ui/button'
 
-export default function QuestionContent({ questionNumber }: { questionNumber: number }) {
+export default function QuestionContent({ questionNumber, onSubmit, onGoBack }: { 
+  questionNumber: number
+  onSubmit: (answerKey: string | string[]) => void
+  onGoBack: () => void
+}) {
   const question = quizQuestions[questionNumber - 1]
 
   return (
@@ -24,11 +28,16 @@ export default function QuestionContent({ questionNumber }: { questionNumber: nu
             key={question.key}
             title={question.label}
             caption={question.caption}
+            onClick={() => onSubmit(question.key)}
           />
         ))}
       </div>
       <div className={styles.action}>
-        {questionNumber > 1 && <Button variant='text'><MdOutlineArrowBack /> Назад</Button>}
+        {questionNumber > 1 && (
+          <Button variant='text' onClick={() => onGoBack()}>
+            <MdOutlineArrowBack /> Назад
+          </Button>
+        )}
       </div>
     </div>
   )
