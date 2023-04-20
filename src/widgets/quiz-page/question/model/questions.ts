@@ -13,6 +13,20 @@ import EmojiDependences from '@/assets/answer-icons/screen7/dependences.png'
 import EmojiImpulsive from '@/assets/answer-icons/screen7/impulsive.png'
 import EmojiLowSelfEsteem from '@/assets/answer-icons/screen7/low_self_esteem.png'
 
+import EmojiSport from '@/assets/answer-icons/screen8/sport.png'
+import EmojiMeditation from '@/assets/answer-icons/screen8/meditation.png'
+import EmojiHobby from '@/assets/answer-icons/screen8/hobby.png'
+import EmojiRelatives_talk from '@/assets/answer-icons/screen8/relatives_talk.png'
+import EmojiWorkOrStudy from '@/assets/answer-icons/screen8/work_or_study.png'
+import EmojiWalkOrRest from '@/assets/answer-icons/screen8/walk_or_rest.png'
+
+import EmojiStress from '@/assets/answer-icons/screen9/stress.png'
+import EmojiLoneliness from '@/assets/answer-icons/screen9/loneliness.png'
+import EmojiOverwork from '@/assets/answer-icons/screen9/overwork.png'
+import EmojiLackOfSleep from '@/assets/answer-icons/screen9/lack_of_sleep.png'
+import EmojiUncertainty2 from '@/assets/answer-icons/screen9/uncertainty.png'
+import EmojiWorries from '@/assets/answer-icons/screen9/worries.png'
+
 export type quizQuestion = {
   questionKey: string
   text: string
@@ -124,6 +138,36 @@ export const quizQuestions: quizQuestion[] = [
       { key: 'DEPENDENCES', label: 'Зависливость', icon: EmojiDependences },
       { key: 'IMPULSIVE', label: 'Импульсивность', icon: EmojiImpulsive },
       { key: 'LOW_SELF_ESTEEM', label: 'Низкая самооценка', icon: EmojiLowSelfEsteem },
+    ]
+  },
+  {
+    questionKey: 'mental_help',
+    text: 'Что вы делаете для поддержания своих ментальных <strong>ресурсов</strong>?',
+    subtitle: 'Выберите один или несколько вариантов',
+    textAccentColor: '#8ADEC4',
+    answerType: 'multi_options',
+    options: [
+      { key: 'SPORT', label: 'Занимаюсь спортом', icon: EmojiSport },
+      { key: 'MEDITATION', label: 'Медитирую', icon: EmojiMeditation },
+      { key: 'HOBBY', label: 'Занимаюсь хобби', icon: EmojiHobby },
+      { key: 'RELATIVES_TALK', label: 'Общаюсь с близкими', icon: EmojiRelatives_talk },
+      { key: 'WORK_OR_STUDY', label: 'Работаю или учусь', icon: EmojiWorkOrStudy },
+      { key: 'WALK_OR_REST', label: 'Гуляю или отдыхаю', icon: EmojiWalkOrRest },
+    ]
+  },
+  {
+    questionKey: 'mental_threat',
+    text: 'В каких ситуациях ваше ментальное здоровье находится под <strong>угрозой</strong>?',
+    subtitle: 'Выберите один или несколько вариантов',
+    textAccentColor: 'rgba(255, 177, 103, 1)',
+    answerType: 'multi_options',
+    options: [
+      { key: 'STRESS', label: 'Длительный стресс', icon: EmojiStress },
+      { key: 'LONELINESS', label: 'Ощущение одиночества', icon: EmojiLoneliness },
+      { key: 'OVERWORK', label: 'Перегрузка работой', icon: EmojiOverwork },
+      { key: 'LACK_OF_SLEEP', label: 'Недостаток сна', icon: EmojiLackOfSleep },
+      { key: 'UNCERTAINTY', label: 'Неуверенность в себе', icon: EmojiUncertainty2 },
+      { key: 'WORRIES', label: 'Сильные переживания', icon: EmojiWorries },
     ]
   },
 ]

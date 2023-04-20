@@ -11,7 +11,7 @@ const questionsLength = quizQuestions.length
 export default function Quiz() {
   const router = useRouter()
   const questionNumber = Number(router.query.question)
-  const lastQuestion = questionNumber === questionsLength-1
+  const lastQuestion = questionNumber === questionsLength
   const nextPage = lastQuestion ? '/quiz/result' : `/quiz/${questionNumber + 1}`
 
   React.useEffect(() => {
@@ -38,7 +38,7 @@ export default function Quiz() {
 
 export function getServerSideProps(context: GetServerSidePropsContext): GetServerSidePropsResult<Record<string, never>> {
   const question = Number(context.params?.question)
-  if (!Number.isSafeInteger(question) || question < 1 || question > 8) {
+  if (!Number.isSafeInteger(question) || question < 1 || question > questionsLength) {
     return {
       notFound: true
     }
