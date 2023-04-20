@@ -9,6 +9,7 @@
   height: 60px;
   padding: 0 12px;
   cursor: pointer;
+  gap: 10px;
   
   border: 0;
   font-family: 'Inter', sans-serif;
@@ -18,5 +19,17 @@
   &.text {
     background-color: transparent;
     color: variables.$button-default;
+  }
+
+  &.contained {
+    background-color: variables.$button-default;
+    color: rgb(218, 222, 231);
+    transition: none 120ms ease-in-out;
+    transition-property: background-color, color;
+
+    &[disabled] {
+      background: #B6BED0;
+      pointer-events: none;
+    }
   }
 }

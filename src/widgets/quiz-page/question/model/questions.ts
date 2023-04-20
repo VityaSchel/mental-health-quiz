@@ -4,6 +4,15 @@ import Emoji3 from '@/assets/slider/emoji/3.png'
 import Emoji4 from '@/assets/slider/emoji/4.png'
 import Emoji5 from '@/assets/slider/emoji/5.png'
 
+import EmojiEgoism from '@/assets/answer-icons/screen7/egoism.png'
+import EmojiUndetermination from '@/assets/answer-icons/screen7/undetermination.png'
+import EmojiAgressive from '@/assets/answer-icons/screen7/agressive.png'
+import EmojiIgnorance from '@/assets/answer-icons/screen7/ignorance.png'
+import EmojiUncertainty from '@/assets/answer-icons/screen7/uncertainty.png'
+import EmojiDependences from '@/assets/answer-icons/screen7/dependences.png'
+import EmojiImpulsive from '@/assets/answer-icons/screen7/impulsive.png'
+import EmojiLowSelfEsteem from '@/assets/answer-icons/screen7/low_self_esteem.png'
+
 export type quizQuestion = {
   questionKey: string
   text: string
@@ -14,6 +23,9 @@ export type quizQuestion = {
 type answerTypes = {
   answerType: 'single_option'
   options: { key: string, label: string, caption: string }[]
+} | {
+  answerType: 'multi_options'
+  options: { key: string, label: string, icon: import('next/image').StaticImageData }[]
 } | {
   answerType: 'slider'
   options: { key: string, label: string, caption?: string, color?: string, icon: import('next/image').StaticImageData }[]
@@ -95,6 +107,23 @@ export const quizQuestions: quizQuestion[] = [
       { key: 'BALANCED', label: 'Идеальный баланс', caption: 'Идеально', color: 'rgba(205, 255, 182, 1)', icon: Emoji3 },
       { key: 'MUCH_WORRIES', label: 'Больше забот', icon: Emoji4 },
       { key: 'ONLY_WORRIES', label: 'Только бытовые хлопоты', caption: 'Много забот', color: 'rgba(255, 217, 182, 1)', icon: Emoji5 },
+    ]
+  },
+  {
+    questionKey: 'bad_sides',
+    text: 'Какие отрицательные качества и слабые стороны вы видите <strong>в себе</strong>?',
+    subtitle: 'Выберите один или несколько вариантов',
+    textAccentColor: 'rgba(187, 160, 228, 1)',
+    answerType: 'multi_options',
+    options: [
+      { key: 'EGOISM', label: 'Эгоизм', icon: EmojiEgoism },
+      { key: 'UNDETERMINATION', label: 'Нерешительность', icon: EmojiUndetermination },
+      { key: 'AGRESSIVE', label: 'Агрессивность', icon: EmojiAgressive },
+      { key: 'IGNORANCE', label: 'Невежество', icon: EmojiIgnorance },
+      { key: 'UNCERTAINTY', label: 'Неуверенность', icon: EmojiUncertainty },
+      { key: 'DEPENDENCES', label: 'Зависливость', icon: EmojiDependences },
+      { key: 'IMPULSIVE', label: 'Импульсивность', icon: EmojiImpulsive },
+      { key: 'LOW_SELF_ESTEEM', label: 'Низкая самооценка', icon: EmojiLowSelfEsteem },
     ]
   },
 ]
