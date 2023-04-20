@@ -5,6 +5,11 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
 
+  @media screen and (max-width: variables.$breakpoint-tablet) {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 12px;
+  }
+
   .option {
     display: flex;
     flex-direction: row;
@@ -27,6 +32,11 @@
     border: 2px solid #ffffff;
     cursor: pointer;
 
+    @media screen and (max-width: variables.$breakpoint-tablet) {
+      font-size: 15px;
+      gap: 12px;
+    }
+
     &.selected {
       border-color: #243B8B;
     }
@@ -35,6 +45,11 @@
       width: 32px;
       height: 32px;
       position: relative;
+
+      @media screen and (max-width: variables.$breakpoint-tablet) {
+        width: 24px;
+        height: 24px;
+      }
     }
 
     .check {

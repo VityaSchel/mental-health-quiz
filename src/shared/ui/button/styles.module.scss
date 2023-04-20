@@ -23,13 +23,14 @@
 
   &.contained {
     background-color: variables.$button-default;
-    color: rgb(218, 222, 231);
+    color: #fff;
     transition: none 120ms ease-in-out;
     transition-property: background-color, color;
 
     &[disabled] {
       background: #B6BED0;
       pointer-events: none;
+      color: rgb(218, 222, 231);
     }
   }
 }
