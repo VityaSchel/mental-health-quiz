@@ -42,7 +42,7 @@ type answerTypes = {
   options: { key: string, label: string, icon: import('next/image').StaticImageData }[]
 } | {
   answerType: 'slider'
-  options: { key: string, label: string, caption?: string, color: string, icon: import('next/image').StaticImageData }[]
+  options: { key: string, label: string, caption?: string, color: string, labelColor: string, icon: import('next/image').StaticImageData }[]
 }
 
 export const quizQuestions: quizQuestion[] = [
@@ -116,11 +116,11 @@ export const quizQuestions: quizQuestion[] = [
     textAccentColor: 'rgba(187, 160, 228, 1)',
     answerType: 'slider',
     options: [
-      { key: 'ONLY_WORK', label: 'Только работа', caption: 'Много работы', color: 'rgba(255, 217, 182, 1)', icon: Emoji1 },
-      { key: 'MUCH_WORK', label: 'Больше работы', color: 'rgba(230, 236, 182, 1)', icon: Emoji2 },
-      { key: 'BALANCED', label: 'Идеальный баланс', caption: 'Идеально', color: 'rgba(205, 255, 182, 1)', icon: Emoji3 },
-      { key: 'MUCH_WORRIES', label: 'Больше забот', color: 'rgba(230, 236, 182, 1)', icon: Emoji4 },
-      { key: 'ONLY_WORRIES', label: 'Только бытовые хлопоты', caption: 'Много забот', color: 'rgba(255, 217, 182, 1)', icon: Emoji5 },
+      { key: 'ONLY_WORK', label: 'Только работа', caption: 'Много работы', color: 'rgba(255, 217, 182, 1)', labelColor: 'rgba(207, 82, 28, 1)', icon: Emoji1 },
+      { key: 'MUCH_WORK', label: 'Больше работы', color: 'rgba(230, 236, 182, 1)', labelColor: 'rgba(207, 157, 28, 1)', icon: Emoji2 },
+      { key: 'BALANCED', label: 'Идеальный баланс', caption: 'Идеально', color: 'rgba(205, 255, 182, 1)', labelColor: 'rgba(100, 207, 28, 1)', icon: Emoji3 },
+      { key: 'MUCH_WORRIES', label: 'Больше забот', color: 'rgba(230, 236, 182, 1)', labelColor: 'rgba(207, 157, 28, 1)', icon: Emoji4 },
+      { key: 'ONLY_WORRIES', label: 'Только бытовые хлопоты', caption: 'Много забот', color: 'rgba(255, 217, 182, 1)', labelColor: 'rgba(207, 82, 28, 1)', icon: Emoji5 },
     ]
   },
   {

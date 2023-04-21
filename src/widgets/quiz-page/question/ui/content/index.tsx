@@ -5,8 +5,8 @@ import Headline from '@/entities/typography/headline'
 import { MdOutlineArrowBack } from 'react-icons/md'
 import { Button } from '@/shared/ui/button'
 import SingleOptionContent from './single-option-content'
-import MultiOptionsContent from '@/widgets/quiz-page/question/ui/content/multi-options-content'
-import { Range } from '@/shared/range'
+import MultiOptionsContent from './multi-options-content'
+import SliderContent from './slider-content'
 
 export default function QuestionContent({ questionNumber, onSubmit, onGoBack }: { 
   questionNumber: number
@@ -29,7 +29,7 @@ export default function QuestionContent({ questionNumber, onSubmit, onGoBack }: 
       <div className={styles.content}>
         {{
           'single_option': <SingleOptionContent question={question} onSubmit={onSubmit} />,
-          'slider': <Range values={question.options} valueKey={values as string} defaultValueKey={question.options[0].key} />,
+          'slider': <SliderContent question={question} value={values as string} onChange={setValues} />,
           'multi_options': <MultiOptionsContent question={question} onChange={setValues} />,
         }[question.answerType]}
       </div>

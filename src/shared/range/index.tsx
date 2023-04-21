@@ -6,10 +6,10 @@ import useMeasure from 'react-use-measure'
 import { mergeRefs } from 'react-merge-refs'
 
 function Container({ values, valueKey, onChange, defaultValueKey }: {
-  values: { key: string, label: string, caption?: string, color: string, icon: import('next/image').StaticImageData }[],
+  values: { key: string, label: string, caption?: string, color: string, labelColor: string, icon: import('next/image').StaticImageData }[],
   valueKey: string
   defaultValueKey: string
-  onChange: () => any
+  onChange: (value: string) => any
 }) {
   const [handlePressed, setHandlePressed] = React.useState(false)
   const [mouseX, setMouseX] = React.useState(0)
@@ -23,7 +23,7 @@ function Container({ values, valueKey, onChange, defaultValueKey }: {
   const valueIndex = values.findIndex(v => v.key === value.key)
 
   const captionStyles = useSpring({
-    color: value.color
+    color: value.labelColor
   })
 
   const slideStyles = { 
@@ -31,8 +31,9 @@ function Container({ values, valueKey, onChange, defaultValueKey }: {
   }
 
   const handleStyles = useSpring({
-    left: `${valueIndex/values.length*100}%`,
-    scale: handlePressed ? 1.1 : 1
+    left: `${valueIndex/(values.length-1)*100}%`,
+    scale: handlePressed ? 1.2 : 1,
+    transform: 'translateX(-50%)'
   })
 
   React.useEffect(() => {
@@ -56,14 +57,29 @@ function Container({ values, valueKey, onChange, defaultValueKey }: {
       }
     }
   }, [handlePressed, setMouseX])
+  
+  const closestPoint = (relX: number, pointsCount: number) => {
+    const singlePointDelta = 1/(pointsCount-1)/2
+    for (let pointIndex = 0; pointIndex < pointsCount; pointIndex++) {
+      const pointPosX = pointIndex/(pointsCount-1)
+      if(relX < pointPosX+singlePointDelta) return pointIndex
+    }
+    throw new Error('Incorrect values for closestPoint function')
+  }
 
   React.useEffect(() => {
     const handleWidth = 40
     const delta = mouseX - bounds.left + handleWidth / 2
     const innerXpos = Math.min(bounds.width, Math.max(0, delta))
     const innerXposRel = innerXpos / bounds.width
-    console.log(innerXposRel * 100, '%')
-  }, [bounds, mouseX])
+
+    const closestPointIndex = closestPoint(innerXposRel, values.length)
+    if(valueIndex !== closestPointIndex) {
+      console.log('new value', closestPointIndex)
+      onChange(values[closestPointIndex].key)
+    }
+  }, [bounds, mouseX, value, onChange])
+
   
   return (
     <div className={styles.container}>
@@ -92,17 +108,3 @@ function Container({ values, valueKey, onChange, defaultValueKey }: {
 }
 
 export { Container as Range }
-
-
-
-// function MyComponent() {
-//   const [props, api] = useSpring(
-//     () => ({
-//       from: { opacity: 0 },
-//       to: { opacity: 1 },
-//     }),
-//     []
-//   )
-
-//   return <animated.div style={props}>Hello World</animated.div>
-// }
