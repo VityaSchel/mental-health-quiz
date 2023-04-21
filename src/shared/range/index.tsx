@@ -2,6 +2,8 @@ import React from 'react'
 import { useSpring, animated } from '@react-spring/web'
 import styles from './styles.module.scss'
 import Image from 'next/image'
+import useMeasure from 'react-use-measure'
+import { mergeRefs } from 'react-merge-refs'
 
 function Container({ values, valueKey, onChange, defaultValueKey }: {
   values: { key: string, label: string, caption?: string, color: string, icon: import('next/image').StaticImageData }[],
@@ -10,6 +12,9 @@ function Container({ values, valueKey, onChange, defaultValueKey }: {
   onChange: () => any
 }) {
   const [handlePressed, setHandlePressed] = React.useState(false)
+  const [mouseX, setMouseX] = React.useState(0)
+  const slideContainerRef = React.useRef(null)
+  const [measureRef, bounds] = useMeasure()
 
   const defaultValue = values.find(v => v.key === defaultValueKey)
   if (!defaultValue) throw new Error('No default value provided to Range component')
@@ -29,18 +34,46 @@ function Container({ values, valueKey, onChange, defaultValueKey }: {
     left: `${valueIndex/values.length*100}%`,
     scale: handlePressed ? 1.1 : 1
   })
+
+  React.useEffect(() => {
+    if(handlePressed) {
+      const pointerup = () => setHandlePressed(false)
+      window.addEventListener('pointerup', pointerup)
+
+      return () => {
+        window.removeEventListener('pointerup', pointerup)
+      }
+    }
+  }, [handlePressed])
+
+  React.useEffect(() => {
+    if(handlePressed) {
+      const pointermove = (e: PointerEvent) => setMouseX(e.clientX)
+      window.addEventListener('pointermove', pointermove)
+
+      return () => {
+        window.removeEventListener('pointermove', pointermove)
+      }
+    }
+  }, [handlePressed, setMouseX])
+
+  React.useEffect(() => {
+    const handleWidth = 40
+    const delta = mouseX - bounds.left + handleWidth / 2
+    const innerXpos = Math.min(bounds.width, Math.max(0, delta))
+    const innerXposRel = innerXpos / bounds.width
+    console.log(innerXposRel * 100, '%')
+  }, [bounds, mouseX])
   
   return (
     <div className={styles.container}>
       <animated.span className={styles.label} style={captionStyles}>{value.label}</animated.span>
-      <div className={styles.slideContainer}>
+      <div className={styles.slideContainer} ref={mergeRefs([slideContainerRef, measureRef])}>
         <div className={styles.slide} style={slideStyles} />
         <animated.div
           className={styles.handle} 
           style={handleStyles}
           onPointerDown={() => setHandlePressed(true)}
-          onPointerUp={() => setHandlePressed(false)}
-          onPointerLeave={() => setHandlePressed(false)}
         >
           <Image 
             src={value.icon} 
