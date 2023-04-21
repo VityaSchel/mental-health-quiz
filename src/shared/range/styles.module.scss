@@ -17,12 +17,26 @@
     margin: 4px 0;
   }
 
-  .slide {
-    width: calc(100% - 8px*2);
-    height: 10px;
-    border: 0.5px solid rgba(29, 36, 54, 0.12);
-    border-radius: 20px;
-    margin: 15px 8px;
+  .slideContainer {
+    padding: 15px 8px;
+    width: 100%;
+    position: relative;
+    user-select: none;
+
+    .slide {
+      height: 10px;
+      border: 0.5px solid rgba(29, 36, 54, 0.12);
+      border-radius: 20px;
+    }
+
+    .handle {
+      position: absolute;
+      top: 0;
+      display: flex;
+
+      -webkit-user-drag: none;
+      user-select: none;
+    }
   }
 
   .ticks {
