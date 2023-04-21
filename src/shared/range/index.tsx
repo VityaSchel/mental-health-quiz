@@ -44,9 +44,11 @@ function Container({ values, valueKey, onChange, defaultValueKey }: {
     if(handlePressed) {
       const pointerup = () => setHandlePressed(false)
       window.addEventListener('pointerup', pointerup)
+      window.addEventListener('touchend', pointerup)
 
       return () => {
         window.removeEventListener('pointerup', pointerup)
+        window.removeEventListener('touchend', pointerup)
       }
     }
   }, [handlePressed])
@@ -54,10 +56,13 @@ function Container({ values, valueKey, onChange, defaultValueKey }: {
   React.useEffect(() => {
     if(handlePressed) {
       const pointermove = (e: PointerEvent) => setMouseX(e.clientX)
+      const touchmove = (e: TouchEvent) => setMouseX(e.touches[0].clientX)
       window.addEventListener('pointermove', pointermove)
+      window.addEventListener('touchmove', touchmove)
 
       return () => {
         window.removeEventListener('pointermove', pointermove)
+        window.removeEventListener('touchmove', touchmove)
       }
     }
   }, [handlePressed, setMouseX])
@@ -83,7 +88,7 @@ function Container({ values, valueKey, onChange, defaultValueKey }: {
     }
   }, [bounds, mouseX, value, onChange])
 
-  const handleSlideClick = (e: PointerEvent) => {
+  const handleSlideClick = (e: React.PointerEvent<HTMLDivElement>) => {
     setHandlePressed(true)    
     setMouseX(e.clientX)
   }
