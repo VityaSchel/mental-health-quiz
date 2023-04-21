@@ -31,6 +31,7 @@
     transition: border-color 100ms ease-in-out;
     border: 2px solid #ffffff;
     cursor: pointer;
+    text-align: left;
 
     @media screen and (max-width: variables.$breakpoint-tablet) {
       font-size: 15px;
