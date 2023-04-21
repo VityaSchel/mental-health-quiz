@@ -1,3 +1,5 @@
+@use '@/shared/styles/variables.scss' as variables;
+
 .container {
   background: #FFFFFF;
   border-radius: 20px;
@@ -22,6 +24,7 @@
     width: 100%;
     position: relative;
     user-select: none;
+    cursor: ew-resize;
 
     .slide {
       height: 10px;
@@ -33,6 +36,7 @@
       position: absolute;
       top: 0;
       display: flex;
+      cursor: ew-resize;
 
       -webkit-user-drag: none;
       user-select: none;
@@ -40,6 +44,37 @@
   }
 
   .ticks {
+    position: relative;
+    margin: 0 8px;
+    color: variables.$tertiary-color;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 14px;
+    width: calc(100% - 8px*2*2);
+    left: 8px;
+    height: 20px;
 
+    .tick {
+      position: absolute;
+      width: max-content;
+      transform: translateX(-50%);
+
+      &.placeholder {
+        display: block;
+        width: 1.5px;
+        height: 8px;
+        background-color: rgba(29, 36, 54, 0.12);
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      &:first-child {
+        transform: translateX(0px);
+      }
+
+      &:last-child {
+        transform: translateX(-100%);
+      }
+    }
   }
 }

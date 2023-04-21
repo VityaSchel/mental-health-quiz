@@ -4,7 +4,9 @@ import styles from './styles.module.scss'
 import Image from 'next/image'
 import useMeasure from 'react-use-measure'
 import { mergeRefs } from 'react-merge-refs'
+import cx from 'classnames'
 
+const handleWidth = 40
 function Container({ values, valueKey, onChange, defaultValueKey }: {
   values: { key: string, label: string, caption?: string, color: string, labelColor: string, icon: import('next/image').StaticImageData }[],
   valueKey: string
@@ -30,10 +32,12 @@ function Container({ values, valueKey, onChange, defaultValueKey }: {
     background: `linear-gradient(to right, ${values.map(v => v.color).join(', ')})`
   }
 
+  const leftPos = valueIndex / (values.length - 1) * 100
+  const leftMargin = (leftPos - 50) * 2 / 100 * (handleWidth/2)
   const handleStyles = useSpring({
-    left: `${valueIndex/(values.length-1)*100}%`,
+    left: `${leftPos}%`,
     scale: handlePressed ? 1.2 : 1,
-    transform: 'translateX(-50%)'
+    marginLeft: -leftMargin-20
   })
 
   React.useEffect(() => {
@@ -64,27 +68,34 @@ function Container({ values, valueKey, onChange, defaultValueKey }: {
       const pointPosX = pointIndex/(pointsCount-1)
       if(relX < pointPosX+singlePointDelta) return pointIndex
     }
-    throw new Error('Incorrect values for closestPoint function')
+    // throw new Error('Incorrect values for closestPoint function')
+    return 0
   }
 
   React.useEffect(() => {
-    const handleWidth = 40
     const delta = mouseX - bounds.left + handleWidth / 2
     const innerXpos = Math.min(bounds.width, Math.max(0, delta))
     const innerXposRel = innerXpos / bounds.width
 
     const closestPointIndex = closestPoint(innerXposRel, values.length)
     if(valueIndex !== closestPointIndex) {
-      console.log('new value', closestPointIndex)
       onChange(values[closestPointIndex].key)
     }
   }, [bounds, mouseX, value, onChange])
 
+  const handleSlideClick = (e: PointerEvent) => {
+    setHandlePressed(true)    
+    setMouseX(e.clientX)
+  }
   
   return (
     <div className={styles.container}>
       <animated.span className={styles.label} style={captionStyles}>{value.label}</animated.span>
-      <div className={styles.slideContainer} ref={mergeRefs([slideContainerRef, measureRef])}>
+      <div 
+        className={styles.slideContainer} 
+        ref={mergeRefs([slideContainerRef, measureRef])}
+        onPointerDown={handleSlideClick}
+      >
         <div className={styles.slide} style={slideStyles} />
         <animated.div
           className={styles.handle} 
@@ -101,7 +112,15 @@ function Container({ values, valueKey, onChange, defaultValueKey }: {
         </animated.div>
       </div>
       <div className={styles.ticks}>
-
+        {values.map((v, i) => (
+          <span 
+            key={v.key} 
+            className={cx(styles.tick, { [styles.placeholder]: !v.caption })}
+            style={{ left: `${i/(values.length-1)*100}%` }}
+          >
+            {v.caption}
+          </span>
+        ))}
       </div>
     </div>   
   )
