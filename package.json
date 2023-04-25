@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "codegen": "swagger-typescript-api -p https://api.cleanmind.pro/swagger.json -o ./src/shared/api/ -n ApiDefinitions.ts"
   },
   "dependencies": {
     "@react-spring/web": "^9.7.2",
@@ -32,6 +33,7 @@
     "@typescript-eslint/eslint-plugin": "^5.58.0",
     "@typescript-eslint/parser": "^5.58.0",
     "eslint": "^8.38.0",
-    "eslint-plugin-react": "^7.32.2"
+    "eslint-plugin-react": "^7.32.2",
+    "swagger-typescript-api": "^12.0.4"
   }
 }

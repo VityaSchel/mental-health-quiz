@@ -1,0 +1,88 @@
+@mixin arcRoot($arcThickness: 3px, $circleSize: 60px, $majorArcColor: red, $minorArcColor: white, $innerColor: #eee, $textColor, $arcStartPosition: 90deg, $boxShadow: none, $transtionDuration: 1000ms) {
+
+  $circleOutterSize: $circleSize + $arcThickness*2;
+
+  &,
+  .arc,
+  .text {
+    margin: 0;
+    padding: 0;
+  }
+
+  & {
+    position: relative;
+    margin: 0;
+    width: $circleOutterSize; height: $circleOutterSize;
+    border-radius: 50%;
+    background: $minorArcColor;
+    overflow: hidden;
+    clip-path: circle();
+    box-shadow: $boxShadow;
+    
+    .text {
+      text-align: center;
+      position: absolute;
+      color: $textColor;
+      height: 1em;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      z-index: 2;
+      line-height: inherit;
+      font-family: inherit;
+      font-weight: inherit;
+      font-size: inherit;
+    }
+  }
+
+  &:before {
+    content: '';
+    display: block;
+    position: relative;
+    width: $circleSize - 0.5px; height: $circleSize - 0.5px;
+    border-radius: 50%;
+    background: $innerColor;
+    top: $arcThickness;
+    left: $arcThickness;
+    z-index: 1;
+  }
+
+  .arc {
+    overflow: hidden;
+    width: 50%; height: 50%;
+    position: absolute;
+    right: 50%; bottom: 50%;
+    padding: 5000em 0 0 5000em;
+    transform-origin: 100% 100%;
+
+    --arcSkewX: calc(calc(calc(var(--arc-percentage) * 3.6) - 90deg) * -1);
+    --arcSkewXfix: calc(var(--arcSkewX) * -1);
+
+    transform: rotateZ($arcStartPosition) rotateX(0deg) skewX(var(--arcSkewX));
+    background-color: $majorArcColor;
+
+    transition: transform $transtionDuration linear;
+  }
+
+  &.halfThrough {
+    background-color: $majorArcColor;
+
+    .arc {
+      transform: rotateZ($arcStartPosition) rotateX(180deg) skewX(var(--arcSkewX));
+      background-color: $minorArcColor;
+    }
+  }
+
+  .arc:before {
+    display: block;
+    border: solid $arcThickness rgba(244, 234, 228, 1);
+    width: 200%; height: 200%;
+
+    box-sizing: border-box;
+    border-radius: 50%;
+    transform: skewX(var(--arcSkewXfix));
+    content: '';
+  }
+}

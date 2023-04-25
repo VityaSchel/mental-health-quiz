@@ -6,10 +6,14 @@ import { quizQuestions } from '@/widgets/quiz-page/question/model/questions'
 import QuizPageWrapper from '@/widgets/quiz-page/wrapper'
 import QuestionContent from '@/widgets/quiz-page/question/ui/content'
 import QuestionDecoration from '@/widgets/quiz-page/question/ui/decoration'
+import LoadingResults from '@/widgets/loading-results'
+import { getCv } from '@/shared/api'
 
 const questionsLength = quizQuestions.length
 export default function Quiz() {
   const router = useRouter()
+  const [loadingResults, setLoadingResults] = React.useState(false)
+
   const questionNumber = Number(router.query.question)
   const lastQuestion = questionNumber === questionsLength
   const nextPage = lastQuestion ? '/quiz/result' : `/quiz/${questionNumber + 1}`
@@ -18,20 +22,30 @@ export default function Quiz() {
     router.prefetch(nextPage)
   }, [router, nextPage])
   
-  const handleSubmit = (answerKey: string | string[]) => {
-    router.push(nextPage)
+  const handleSubmit = async (answerKey: string | string[]) => {
+    if (lastQuestion) {
+      setLoadingResults(true)
+      getCv()
+    } else {
+      router.push(nextPage)
+    }
   }
 
   return (
     <QuizPageWrapper>
-      <QuestionContent 
-        questionNumber={questionNumber}
-        onSubmit={handleSubmit}
-        onGoBack={() => router.back()}
-      />
-      <QuestionDecoration
-        questionNumber={questionNumber}
-      />
+      {!loadingResults && (
+        <>
+          <QuestionContent 
+            questionNumber={questionNumber}
+            onSubmit={handleSubmit}
+            onGoBack={() => router.back()}
+          />
+          <QuestionDecoration
+            questionNumber={questionNumber}
+          />
+        </>
+      )}
+      <LoadingResults visible={loadingResults} />
     </QuizPageWrapper>
   )
 }
