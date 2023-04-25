@@ -26,6 +26,7 @@
     "react-merge-refs": "^2.0.1",
     "react-use-measure": "^2.1.1",
     "sass": "^1.62.0",
+    "secure-json-parse": "^2.7.0",
     "typescript": "5.0.4"
   },
   "devDependencies": {

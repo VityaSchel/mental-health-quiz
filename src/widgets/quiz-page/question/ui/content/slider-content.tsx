@@ -1,5 +1,5 @@
 import { quizQuestion } from '@/widgets/quiz-page/question/model/questions'
-import { Range } from '@/shared/range'
+import { Range } from '@/shared/ui/range'
 
 export default function SliderContent({ question, value, onChange }: {
   question: quizQuestion

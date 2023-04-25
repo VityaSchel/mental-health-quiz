@@ -8,6 +8,8 @@ import QuestionContent from '@/widgets/quiz-page/question/ui/content'
 import QuestionDecoration from '@/widgets/quiz-page/question/ui/decoration'
 import LoadingResults from '@/widgets/loading-results'
 import { getCv } from '@/shared/api'
+import { JSONParse } from '@/shared/utils/safe-json-parse'
+import { CvBasedQuestionnaireBody } from '@/shared/api/ApiDefinitions'
 
 const questionsLength = quizQuestions.length
 export default function Quiz() {
@@ -17,17 +19,32 @@ export default function Quiz() {
   const questionNumber = Number(router.query.question)
   const lastQuestion = questionNumber === questionsLength
   const nextPage = lastQuestion ? '/quiz/result' : `/quiz/${questionNumber + 1}`
+  const formData = JSONParse<object>(router.query.data) ?? {}
 
   React.useEffect(() => {
     router.prefetch(nextPage)
   }, [router, nextPage])
+
+  React.useEffect(() => {
+    if (typeof window && questionNumber !== 1 && Object.entries(formData).length === 0) {
+      router.replace('/quiz/1')
+    }
+  }, [questionNumber, router])
   
-  const handleSubmit = async (answerKey: string | string[]) => {
+  const handleSubmit = (answerKey: string | string[]) => {
+    const newFormData = Object.assign(formData, { [quizQuestions[questionNumber - 1].questionKey]: answerKey }) as object as CvBasedQuestionnaireBody
     if (lastQuestion) {
       setLoadingResults(true)
-      getCv()
+      getCv(newFormData)
+        .then((cv) => {
+          alert(JSON.stringify(cv))
+        })
+        .catch(() => alert('Ошибка!'))
     } else {
-      router.push(nextPage)
+      router.push({ 
+        pathname: nextPage, 
+        query: { data: JSON.stringify(newFormData) }
+      }, nextPage)
     }
   }
 
