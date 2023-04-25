@@ -6,15 +6,10 @@ import cx from 'classnames'
 
 const SelectContext = React.createContext<[string[], (newAnswers: string[]) => any]>([[], () => {/**/}])
 
-export function MultiSelect({ children, onChange }: React.PropsWithChildren<{
-  onChange: (answers: string[]) => void
+export function MultiSelect({ children, answers, setAnswers }: React.PropsWithChildren<{
+  answers: string[]
+  setAnswers: (answers: string[]) => void
 }>) {
-  const [answers, setAnswers] = React.useState<string[]>([])
-
-  React.useEffect(() => {
-    onChange(answers)
-  }, [onChange, answers])
-
   return (
     <SelectContext.Provider value={[answers, setAnswers]}>
       <div className={styles.select}>
