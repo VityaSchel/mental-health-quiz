@@ -1,0 +1,144 @@
+stages:
+  - prepare
+  - build
+  - deploy
+
+image: docker:${DOCKER_VERSION}
+variables:
+  DOCKER_BUILDKIT: 1
+  DOCKER_VERSION: 20.10.17
+
+.docker_init_template:
+  - docker login -u $DOCKER_REGISTRY_USER -p $DOCKER_REGISTRY_PASSWORD $DOCKER_REGISTRY
+
+.ssh_init_template:
+  - mkdir -p ~/.ssh
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+  - chmod 600 ~/.ssh/id_rsa
+  - chmod 700 ~/.ssh
+  - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
+  - eval $(ssh-agent -s)
+  - ssh-add ~/.ssh/id_rsa
+
+install:
+  stage: prepare
+  services:
+    - name: docker:${DOCKER_VERSION}-dind
+      command: ["--registry-mirror", "https://proxy-registry.skidstor.com"]
+  cache:
+    - key:
+        files:
+          - yarn.lock
+      paths:
+        - node_modules
+      policy: pull-push
+  before_script:
+    - !reference [.docker_init_template]
+  script:
+    - mkdir -p node_modules
+
+    - >
+      docker build
+      --file docker/node/Dockerfile
+      --target install
+      --tag $DOCKER_REGISTRY_PATH:$CI_COMMIT_REF_NAME-install
+      .
+
+    - rm -rf node_modules
+
+    - docker create --name node $DOCKER_REGISTRY_PATH:$CI_COMMIT_REF_NAME-install
+    - docker cp node:/app/node_modules $CI_PROJECT_DIR/
+
+.build_production_template:
+  stage: build
+  services:
+    - name: docker:${DOCKER_VERSION}-dind
+      command: ["--registry-mirror", "https://proxy-registry.skidstor.com"]
+  cache:
+    - key:
+        files:
+          - yarn.lock
+      paths:
+        - node_modules
+      policy: pull
+    - key: next-cache-${PROJECT_NAME}-${CI_COMMIT_REF_SLUG}
+      paths:
+        - .next/cache
+      policy: pull-push
+  before_script:
+    - !reference [.docker_init_template]
+  script:
+    - mkdir -p .next/cache
+
+    - >
+      docker build
+      --file docker/node/Dockerfile
+      --build-arg BUILDKIT_INLINE_CACHE=1
+      --cache-from $DOCKER_REGISTRY_PATH:$CI_COMMIT_REF_NAME-$PROJECT_NAME
+      --target builder
+      --tag $DOCKER_REGISTRY_PATH:$CI_COMMIT_REF_NAME-$PROJECT_NAME
+      .
+#      --build-arg NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL
+#      --build-arg NEXT_PUBLIC_DATA_POLICY=$NEXT_PUBLIC_DATA_POLICY
+#      --build-arg NEXT_PUBLIC_TARIFFS=$NEXT_PUBLIC_TARIFFS
+#      --build-arg NEXT_PUBLIC_USER_AGREEMENT=$NEXT_PUBLIC_USER_AGREEMENT
+#      --build-arg NEXT_PUBLIC_CONTACT_EMAIL=$NEXT_PUBLIC_CONTACT_EMAIL
+#      --build-arg NEXT_PUBLIC_BOT_LINK=$NEXT_PUBLIC_BOT_LINK
+#      --build-arg NEXT_PUBLIC_TEXT_SECOND_CHECKBOX="$NEXT_PUBLIC_TEXT_SECOND_CHECKBOX"
+#      --build-arg NEXT_PUBLIC_MAIN_PAGE_TEXT_SUBSCRIPTION_PRICES="$NEXT_PUBLIC_MAIN_PAGE_TEXT_SUBSCRIPTION_PRICES"
+#      --build-arg NEXT_PUBLIC_PAY_PAGE_TEXT_SUBSCRIPTION_PRICES="$NEXT_PUBLIC_PAY_PAGE_TEXT_SUBSCRIPTION_PRICES"
+#      --build-arg NEXT_PUBLIC_COMPANY_NAME="$NEXT_PUBLIC_COMPANY_NAME"
+#      --build-arg NEXT_PUBLIC_COMPANY_INN=$NEXT_PUBLIC_COMPANY_INN
+#      --build-arg NEXT_PUBLIC_COMPANY_OGRNIP=$NEXT_PUBLIC_COMPANY_OGRNIP
+#      .
+
+    - rm -rf .next/cache
+
+    - docker create --name quiz $DOCKER_REGISTRY_PATH:$CI_COMMIT_REF_NAME-$PROJECT_NAME
+    - docker cp quiz:/app/.next/cache $CI_PROJECT_DIR/.next/cache
+
+    - docker push $DOCKER_REGISTRY_PATH:$CI_COMMIT_REF_NAME-$PROJECT_NAME
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+
+.deploy_production_template:
+  stage: deploy
+  environment:
+    name: production-${PROJECT_NAME}
+  variables:
+    COMPOSE_PROJECT_NAME: ${PROJECT_NAME}_quiz
+    LANDING_IMAGE: $DOCKER_REGISTRY_PATH:$CI_COMMIT_REF_NAME-$PROJECT_NAME
+    DOCKER_HOST: $DEPLOY_PROD_DOCKER_HOST
+  before_script:
+    - !reference [.ssh_init_template]
+    - !reference [.docker_init_template]
+  script:
+    - docker compose pull quiz
+
+    - docker compose up -d --wait
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+
+build_cleanmindpro:
+  extends: .build_production_template
+  variables:
+    PROJECT_NAME: cleanmindpro
+#    NEXT_PUBLIC_BACKEND_URL: https://api.prank.guru
+#    NEXT_PUBLIC_DATA_POLICY: https://docs.google.com/document/d/11ntwB7fqvLM1RYB1-W0y4046AkH3e8qhNb3qyWWETo8/edit?usp=sharing
+#    NEXT_PUBLIC_TARIFFS: https://cdn-pranks.x5.money/tariffs.pdf
+#    NEXT_PUBLIC_USER_AGREEMENT: https://docs.google.com/document/d/1wUCaCHZGo42OHUtUZcL2e1y80lrDDIext-Qs7N5UFZw/edit?usp=sharing
+#    NEXT_PUBLIC_CONTACT_EMAIL: promohelper@proton.me
+#    NEXT_PUBLIC_BOT_LINK: t.me/super_prank_bot
+#    NEXT_PUBLIC_TEXT_SECOND_CHECKBOX: 1 рубль за получение пробного доступа. В дальнейшем, через 72 часа после получения пробного доступа, списывается 985 рублей за каждые 14 дней использования сервиса.
+#    NEXT_PUBLIC_MAIN_PAGE_TEXT_SUBSCRIPTION_PRICES: Далее 985 ₽ за каждые 14 дней
+#    NEXT_PUBLIC_PAY_PAGE_TEXT_SUBSCRIPTION_PRICES: Далее 985 рублей за каждые 14 дней или 195 рублей за каждые 3 дня
+#    NEXT_PUBLIC_COMPANY_NAME: ИП Рякин Егор Андреевич
+#    NEXT_PUBLIC_COMPANY_INN: 471910121614
+#    NEXT_PUBLIC_COMPANY_OGRNIP: 323470400012068
+
+deploy_production_cleanmindpro:
+  extends: .deploy_production_template
+  variables:
+    PROJECT_NAME: cleanmindpro
+    VIRTUAL_HOST: cleanmind.pro
