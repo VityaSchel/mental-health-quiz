@@ -100,7 +100,7 @@ install:
 
     - docker push $DOCKER_REGISTRY_PATH:$CI_COMMIT_REF_NAME-$PROJECT_NAME
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_BRANCH == "master"
 
 .deploy_production_template:
   stage: deploy
@@ -114,11 +114,11 @@ install:
     - !reference [.ssh_init_template]
     - !reference [.docker_init_template]
   script:
-    - docker compose pull quiz
+    - docker compose pull frontend
 
     - docker compose up -d --wait
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_BRANCH == "master"
 
 build_cleanmindpro:
   extends: .build_production_template
