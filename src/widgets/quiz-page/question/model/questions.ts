@@ -47,7 +47,7 @@ type answerTypes = {
 
 export const quizQuestions: quizQuestion[] = [
   {
-    questionKey: 'stress_level',
+    questionKey: 'stressLevel',
     text: 'Как вы оцениваете уровень <strong>стресса</strong> в вашей повседневной жизни?',
     subtitle: 'Выберите вариант который больше всего вам соответствует',
     textAccentColor: 'rgba(138, 172, 251, 1)',
@@ -60,7 +60,7 @@ export const quizQuestions: quizQuestion[] = [
     ]
   },
   {
-    questionKey: 'emotions_handle',
+    questionKey: 'emotionsHandle',
     text: 'Как вы справляетесь с <strong>эмоциями</strong>?',
     subtitle: 'Как вы боритесь с гневом, разочарование или грустью?',
     textAccentColor: 'rgba(151, 219, 130, 1)',
@@ -85,7 +85,7 @@ export const quizQuestions: quizQuestion[] = [
     ]
   },
   {
-    questionKey: 'self_reflection',
+    questionKey: 'selfReflection',
     text: 'Как часто вы практикуете <strong>саморефлексию</strong>?',
     subtitle: 'Часто ли применяете самоанализ?',
     textAccentColor: 'rgba(255, 177, 103, 1)',
@@ -98,7 +98,7 @@ export const quizQuestions: quizQuestion[] = [
     ]
   },
   {
-    questionKey: 'relatives_contact',
+    questionKey: 'relativesContact',
     text: 'Как вы сохраняете <strong>связь</strong> с близкими людьми?',
     subtitle: 'Выберите вариант который больше всего вам соответствует',
     textAccentColor: 'rgba(151, 219, 130, 1)',
@@ -110,7 +110,7 @@ export const quizQuestions: quizQuestion[] = [
     ]
   },
   {
-    questionKey: 'work_balance',
+    questionKey: 'workBalance',
     text: 'Как вы оцениваете <strong>баланс</strong> между работой и личной жизнью?',
     subtitle: 'С помощью ползунка выберите вариант вам соответствует',
     textAccentColor: 'rgba(187, 160, 228, 1)',
@@ -124,7 +124,7 @@ export const quizQuestions: quizQuestion[] = [
     ]
   },
   {
-    questionKey: 'bad_sides',
+    questionKey: 'badSides',
     text: 'Какие отрицательные качества и слабые стороны вы видите <strong>в себе</strong>?',
     subtitle: 'Выберите один или несколько вариантов',
     textAccentColor: 'rgba(187, 160, 228, 1)',
@@ -141,7 +141,7 @@ export const quizQuestions: quizQuestion[] = [
     ]
   },
   {
-    questionKey: 'mental_help',
+    questionKey: 'mentalHelp',
     text: 'Что вы делаете для поддержания своих ментальных <strong>ресурсов</strong>?',
     subtitle: 'Выберите один или несколько вариантов',
     textAccentColor: '#8ADEC4',
@@ -156,7 +156,7 @@ export const quizQuestions: quizQuestion[] = [
     ]
   },
   {
-    questionKey: 'mental_threat',
+    questionKey: 'mentalThreat',
     text: 'В каких ситуациях ваше ментальное здоровье находится под <strong>угрозой</strong>?',
     subtitle: 'Выберите один или несколько вариантов',
     textAccentColor: 'rgba(255, 177, 103, 1)',
