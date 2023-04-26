@@ -46,7 +46,7 @@ export interface CloudpaymentsReceipt {
 }
 
 export interface CvBasedQuestionnaireBody {
-  anxiety: ("ALWAYS" | "OFTEN" | "SOMETIMES")[];
+  anxiety: "ALWAYS" | "OFTEN" | "SOMETIMES";
   badSides: (
     | "EGOISM"
     | "UNDETERMINATION"
@@ -59,9 +59,9 @@ export interface CvBasedQuestionnaireBody {
   )[];
   emotionsHandle: "HIGH" | "MEDIUM" | "DEPENDS" | "LOW";
   mentalHelp: ("SPORT" | "MEDITATION" | "HOBBY" | "RELATIVES_TALK" | "WORK_OR_STUDY" | "WALK_OR_REST")[];
-  mentalThreat: "STRESS" | "LONELINESS" | "OVERWORK" | "LACK_OF_SLEEP" | "UNCERTAINTY" | "WORRIES";
-  relativesContact: ("TOUGH" | "LACK" | "GOOD")[];
-  selfReflection: ("ALWAYS" | "PREFERENCE" | "NECESSARY" | "NEVER")[];
+  mentalThreat: ("STRESS" | "LONELINESS" | "OVERWORK" | "LACK_OF_SLEEP" | "UNCERTAINTY" | "WORRIES")[];
+  relativesContact: "TOUGH" | "LACK" | "GOOD";
+  selfReflection: "ALWAYS" | "PREFERENCE" | "NECESSARY" | "NEVER";
   stressLevel: "HIGH" | "MEDIUM" | "DEPENDS" | "LOW";
   workBalance: "ONLY_WORK" | "MUCH_WORK" | "BALANCED" | "MUCH_WORRIES" | "ONLY_WORRIES";
 }
