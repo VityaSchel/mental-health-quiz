@@ -1,14 +1,16 @@
 import React from 'react'
+import styles from './styles.module.scss'
 import {
   Chart as ChartJS,
   RadialLinearScale,
   ArcElement,
-  Tooltip,
-  Legend,
+  // Tooltip
 } from 'chart.js'
 import { PolarArea } from 'react-chartjs-2'
+import { drawCircleBackground } from '@/shared/utils/chart-js-plugins'
+import { CvBasedQuestionnaireResponse } from '@/shared/api/ApiDefinitions'
 
-ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend) 
+ChartJS.register(RadialLinearScale, ArcElement, /*Tooltip, */drawCircleBackground) 
 
 type GradientType = 'DANGER' | 'WARNING' | 'SAFE'
 const generateGradients = (ctx: CanvasRenderingContext2D): { [key in GradientType]: CanvasGradient } => {
@@ -41,14 +43,15 @@ const generateGradients = (ctx: CanvasRenderingContext2D): { [key in GradientTyp
   )
 }
 
-export default function Chart() {
+export default function Chart({ cv }: { 
+  cv: CvBasedQuestionnaireResponse 
+}) {
   const chartRef = React.useRef<any | null>(null)
 
   const generateData = (colors: (CanvasGradient | string)[]) => ({
     labels: ['Неуверенность', 'Тревожность', 'Стресс', 'Депрессия', 'Ассоциальность'],
     datasets: [
       {
-        label: '# of Votes',
         data: [1, 2, 3, 4, 5],
         backgroundColor: colors,
         borderWidth: 1,
@@ -72,8 +75,40 @@ export default function Chart() {
   }, [chartRef, setData])
   
   return (
-    <>
-      <PolarArea ref={chartRef} data={data} />
-    </>
+    <div className={styles.chart}>
+      <PolarArea 
+        ref={chartRef} 
+        data={data} 
+        options={{
+          scales: {
+            r: {
+              ticks: {
+                display: false // Remove vertical numbers
+              },
+              grid: {
+                color: '#fff',
+                z: 1
+              },
+              // pointLabels: {
+              //   display: true,
+              //   centerPointLabels: true,
+              //   font: {
+              //     size: 14
+              //   },
+              //   color: 'rgba(114, 123, 148, 1)'
+              // }
+            }
+          },
+          plugins: {
+            canvas_circle_background: { 
+              color: ['risky', 'normal'].includes(cv.level_mental_health)
+                ? 'rgba(29, 36, 54, 0.05)'
+                : 'rgba(226, 65, 30, 0.15)'
+            } 
+          }
+        }}
+        plugins={[drawCircleBackground]}
+      />
+    </div>
   )
 }
