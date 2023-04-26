@@ -124,6 +124,7 @@ build_cleanmindpro:
   extends: .build_production_template
   variables:
     PROJECT_NAME: cleanmindpro
+
 #    NEXT_PUBLIC_BACKEND_URL: https://api.prank.guru
 #    NEXT_PUBLIC_DATA_POLICY: https://docs.google.com/document/d/11ntwB7fqvLM1RYB1-W0y4046AkH3e8qhNb3qyWWETo8/edit?usp=sharing
 #    NEXT_PUBLIC_TARIFFS: https://cdn-pranks.x5.money/tariffs.pdf
