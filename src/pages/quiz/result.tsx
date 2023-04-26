@@ -1,5 +1,7 @@
 import React from 'react'
 import { FirstSection } from '@/widgets/quiz-results/first-section'
+import { StateIndicatorWidget } from '@/widgets/quiz-results/state-indicator'
+import { ResultPageWrapper } from '@/widgets/quiz-results/result-page-wrapper'
 import { useRouter } from 'next/router'
 import { CvBasedQuestionnaireResponse } from '@/shared/api/ApiDefinitions'
 import { JSONParse } from '@/shared/utils/safe-json-parse'
@@ -13,7 +15,7 @@ export default function Result() {
 
   React.useEffect(() => {
     if(process.env.NODE_ENV === 'development') {
-      setCV({ affiliation: 5, anxiety: 5, depression: 5, level_mental_health: 'critical', stress: 5, uncertainty: 5 })
+      setCV({ affiliation: 50, anxiety: 59, depression: 90, level_mental_health: 'critical', stress: 100, uncertainty: 95 })
       return
     }
 
@@ -30,7 +32,10 @@ export default function Result() {
 
   return (
     <CVResultContext.Provider value={cv}>
-      <FirstSection />
+      <ResultPageWrapper>
+        <FirstSection />
+        <StateIndicatorWidget />
+      </ResultPageWrapper>
     </CVResultContext.Provider>
   )
 }

@@ -1,0 +1,121 @@
+@use '@/shared/styles/variables.scss' as variables;
+
+.block {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 40px;
+  gap: 24px;
+
+  width: 600px;
+  height: 370px;
+
+  background: #FFFFFF;
+  box-shadow: 0px 0px 40px rgba(29, 36, 54, 0.05);
+  border-radius: 40px;
+
+  .title {
+    font-family: 'Cormorant Garamond';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 105%;
+    text-align: center;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    color: variables.$primary-color;
+  }
+
+  .state {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0px;
+    gap: 16px;
+    width: 100%;
+
+    .indicator {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      padding: 0px;
+
+      .improvement {
+        width: 352px;
+        height: 59px;
+        margin-left: 56px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0px;
+        gap: 8px;
+
+        .label {
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 400;
+          font-size: 15px;
+          line-height: 130%;
+          color: #A2E933;
+        }
+
+        .visual {
+          border: 1.25px dashed #A2E933;
+          border-width: 1px 1px 0px 1px;
+          border-radius: 12px 12px 0px 0px;
+          width: 100%;
+          flex: 1;
+        }
+      }
+
+      .progress {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        padding: 0px;
+        gap: 4px;
+        border-radius: 12px;
+        overflow: hidden;
+
+        .part {
+          background: #F3F5FB;
+          border-radius: 2px;
+          height: 12px;
+          flex: 1;
+        }
+      }
+    }
+
+    .ticks {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0px;
+      gap: 24px;
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 140%;
+      text-align: center;
+      font-feature-settings: 'pnum' on, 'lnum' on;
+      color: variables.$tertiary-color;
+
+      &:first-child {
+        text-align: left;
+      }
+
+      &:last-child {
+        text-align: right;
+      }
+
+      .verticalBar {
+        background-color: variables.$tertiary-color;
+        width: 1px;
+        height: 6px;
+      }
+    }
+  }
+}

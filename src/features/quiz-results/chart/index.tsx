@@ -12,7 +12,7 @@ import { CvBasedQuestionnaireResponse } from '@/shared/api/ApiDefinitions'
 
 ChartJS.register(RadialLinearScale, ArcElement, /*Tooltip, */drawCircleBackground) 
 
-type GradientType = 'DANGER' | 'WARNING' | 'SAFE'
+type GradientType = 'DANGER' | 'WARNING' | 'LOW' | 'SAFE'
 const generateGradients = (ctx: CanvasRenderingContext2D): { [key in GradientType]: CanvasGradient } => {
   const gradients = {
     DANGER: [
@@ -22,6 +22,10 @@ const generateGradients = (ctx: CanvasRenderingContext2D): { [key in GradientTyp
     WARNING: [
       '#F69F5A',
       '#F69136'
+    ],
+    LOW: [
+      'rgba(248, 215, 95, 1)',
+      'rgba(243, 198, 38, 1)'
     ],
     SAFE: [
       '#ABF25A',
@@ -47,12 +51,14 @@ export default function Chart({ cv }: {
   cv: CvBasedQuestionnaireResponse 
 }) {
   const chartRef = React.useRef<any | null>(null)
+  
+  const dataset = [cv.uncertainty, cv.anxiety, cv.stress, cv.depression, cv.affiliation]
 
   const generateData = (colors: (CanvasGradient | string)[]) => ({
     labels: ['Неуверенность', 'Тревожность', 'Стресс', 'Депрессия', 'Ассоциальность'],
     datasets: [
       {
-        data: [1, 2, 3, 4, 5],
+        data: dataset,
         backgroundColor: colors,
         borderWidth: 1,
       },
@@ -64,13 +70,17 @@ export default function Chart({ cv }: {
   React.useEffect(() => {
     if (chartRef && chartRef.current) {
       const gradients = generateGradients(chartRef.current.ctx)
-      setData(generateData([
-        gradients.DANGER,
-        gradients.WARNING,
-        gradients.DANGER,
-        gradients.SAFE,
-        gradients.DANGER,
-      ]))
+      setData(generateData(
+        dataset.map(value => 
+          value < 16
+            ? gradients.SAFE
+            : value < 30
+              ? gradients.LOW
+              : value < 60
+                ? gradients.WARNING
+                : gradients.DANGER
+        )
+      ))
     }
   }, [chartRef, setData])
   
@@ -87,8 +97,10 @@ export default function Chart({ cv }: {
               },
               grid: {
                 color: '#fff',
-                z: 1
+                z: 1,
+                stepSize: 100/6
               },
+              max: 100
               // pointLabels: {
               //   display: true,
               //   centerPointLabels: true,
