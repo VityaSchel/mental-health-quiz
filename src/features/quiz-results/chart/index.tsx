@@ -83,7 +83,7 @@ export default function Chart({ cv }: {
           scales: {
             r: {
               ticks: {
-                display: false // Remove vertical numbers
+                display: false
               },
               grid: {
                 color: '#fff',

@@ -2,6 +2,7 @@ import Caption from '@/entities/typography/caption'
 import styles from './styles.module.scss'
 import Headline from '@/entities/typography/headline'
 import { CvBasedQuestionnaireResponse } from '@/shared/api/ApiDefinitions'
+import GetPlan from '@/features/quiz-results/get-plan'
 
 export default function Info({ cv }: {
   cv: CvBasedQuestionnaireResponse
@@ -37,6 +38,13 @@ export default function Info({ cv }: {
           'normal': 'Ваше состояние стоит сделать стабильным и избавить вас от депрессий на долгие годы, поэтому мы подготовили для вас индивидуальный план для улучшения  ментального здоровья.',
         }[cv.level_mental_health]}
       </p>
+      <div className={styles.actions}>
+        <GetPlan />
+        <div className={styles.price}>
+          <span className={styles.specialOffer}>27 рублей</span>
+          <span className={styles.oldPrice}>500 рублей</span>
+        </div>
+      </div>
     </div>
   )
 }
