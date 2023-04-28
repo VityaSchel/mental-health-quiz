@@ -7,10 +7,6 @@
   color: variables.$primary-color;
   margin: 0;
 
-  @media screen and (max-width: variables.$breakpoint-tablet) {
-    font-size: 36px;
-  }
-
   strong {
     font-style: normal;
     font-weight: 400;
@@ -36,6 +32,14 @@
     strong {
       height: 54px;
     }
+
+    @media screen and (max-width: variables.$breakpoint-tablet) {
+      font-size: 36px;
+
+      strong {
+        height: 40px;
+      }
+    }
   }
 
   &.h2 {
@@ -43,6 +47,14 @@
     
     strong {
       height: 50px;
+    }
+
+    @media screen and (max-width: variables.$breakpoint-tablet) {
+      font-size: 30px;
+      
+      strong {
+        height: 33px;
+      }
     }
   }
 }

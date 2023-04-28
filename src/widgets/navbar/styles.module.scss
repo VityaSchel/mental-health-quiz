@@ -1,0 +1,12 @@
+@use '@/shared/styles/variables.scss' as variables;
+
+.navbar {
+  position: absolute;
+  padding: 20px;
+  z-index: 10;
+  display: flex;
+
+  @media screen and (max-width: variables.$breakpoint-tablet) {
+    padding: 16px;
+  }
+}

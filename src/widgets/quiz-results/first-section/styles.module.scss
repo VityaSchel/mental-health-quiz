@@ -9,6 +9,13 @@
   isolation: isolate;
   width: 100%;
 
+  @media screen and (max-width: variables.$breakpoint-tablet) {
+    padding: 16px;
+    flex-direction: column-reverse;
+    padding-top: 61px;
+    gap: 32px;
+  }
+
   & > * {
     flex: 1;
   }
@@ -20,6 +27,10 @@
     padding: 0px;
     gap: 32px;
 
+    @media screen and (max-width: variables.$breakpoint-tablet) {
+      gap: 16px;
+    }
+
     p {
       font-family: 'Inter';
       font-style: normal;
@@ -27,12 +38,27 @@
       font-size: 17px;
       line-height: 140%;
       color: variables.$secondary-color;
+      margin: 0;
+
+      @media screen and (max-width: px) {
+        font-size: 15px;
+      }
     }
 
     .actions {
       display: flex;
+      flex-direction: row;
       width: 100%;
       gap: 32px;
+
+      @media screen and (max-width: variables.$breakpoint-tablet) {
+        flex-direction: column;
+        align-items: center;
+
+        button {
+          width: 100%;
+        }
+      }
 
       & > * { flex: 1; }
 

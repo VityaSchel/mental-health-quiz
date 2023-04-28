@@ -37,5 +37,9 @@
   &.big {
     padding: 28px 80px;
     height: auto;
+
+    @media screen and (max-width: variables.$breakpoint-tablet) {
+      padding: 20px 40px;
+    }
   }
 }

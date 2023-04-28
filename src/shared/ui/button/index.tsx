@@ -4,7 +4,7 @@ import cx from 'classnames'
 export function Button({ variant = 'text', children, className, big = false, ...props }: React.PropsWithChildren<{
   className?: string | string[]
   variant: 'text' | 'contained'
-  big: boolean
+  big?: boolean
 }> & React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>) {
   return (
     <button
