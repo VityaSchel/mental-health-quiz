@@ -1,9 +1,9 @@
 import { Button } from '@/shared/ui/button'
 
-export default function GetPlanButton({ onClick }: {
+export default function GetPlanButton({ children, onClick }: React.PropsWithChildren<{
   onClick: () => any
-}) {
+}>) {
   return (
-    <Button variant='contained' onClick={onClick}>Получить план</Button>
+    <Button variant='contained' big onClick={onClick}>{children}</Button>
   )
 }

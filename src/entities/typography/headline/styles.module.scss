@@ -3,7 +3,6 @@
 .headline {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 400;
-  font-size: 56px;
   line-height: 110%;
   color: variables.$primary-color;
   margin: 0;
@@ -23,12 +22,27 @@
     border-radius: 15px;
     display: inline-flex;
     align-items: flex-end;
-    height: 54px;
 
     @media screen and (max-width: variables.$breakpoint-tablet) {
       padding: 0 8px;
       height: 36px;
       border-radius: 8px;
+    }
+  }
+
+  &.h1 {
+    font-size: 56px;
+
+    strong {
+      height: 54px;
+    }
+  }
+
+  &.h2 {
+    font-size: 48px;
+    
+    strong {
+      height: 50px;
     }
   }
 }
