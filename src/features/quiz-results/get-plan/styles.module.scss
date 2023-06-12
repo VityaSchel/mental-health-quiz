@@ -1,0 +1,43 @@
+.modal {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 32px;
+
+  .headline {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 24px;
+
+    .h1 {
+      font-family: 'Cormorant Garamond';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 40px;
+      line-height: 105%;
+      text-align: center;
+      font-feature-settings: 'pnum' on, 'lnum' on;
+      color: #1D2436;
+    }
+
+    .h2 {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 17px;
+      line-height: 140%;
+      text-align: center;
+      color: #727B94;
+    }
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    width: 100%;
+  }
+}

@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from './button'
-import Modal from './modal'
+import { GetPlanModal } from './modal'
 
 export default function GetPlan({ children = 'Получить план' }: React.PropsWithChildren) {
   const [visible, setVisible] = React.useState(false)
@@ -8,7 +8,7 @@ export default function GetPlan({ children = 'Получить план' }: Reac
   return (
     <>
       <Button onClick={() => setVisible(true)}>{children}</Button>
-      <Modal visible={visible} />
+      <GetPlanModal visible={visible} onClose={() => setVisible(false)} />
     </>
   )
 }

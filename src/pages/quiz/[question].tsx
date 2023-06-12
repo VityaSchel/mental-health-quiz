@@ -9,7 +9,7 @@ import QuestionDecoration from '@/widgets/quiz-page/question/ui/decoration'
 import LoadingResults from '@/widgets/loading-results'
 import { getCv } from '@/shared/api'
 import { JSONParse } from '@/shared/utils/safe-json-parse'
-import { CvBasedQuestionnaireBody } from '@/shared/api/ApiDefinitions'
+import { CvBasedQuestionnaireBody, CvBasedQuestionnaireResponse } from '@/shared/api/ApiDefinitions'
 
 const questionsLength = quizQuestions.length
 export default function Quiz() {
@@ -49,21 +49,26 @@ export default function Quiz() {
   }
 
   return (
-    <QuizPageWrapper>
-      {!loadingResults && (
-        <>
-          <QuestionContent 
-            questionNumber={questionNumber}
-            onSubmit={handleSubmit}
-            onGoBack={() => router.back()}
-          />
-          <QuestionDecoration
-            questionNumber={questionNumber}
-          />
-        </>
+    <>
+      {questionNumber === 1 && process.env.NODE_ENV === 'development' && (
+        <button style={{ position: 'absolute', zIndex: 100 }} onClick={() => router.push({ pathname: '/quiz/result', query: { cv: JSON.stringify({ affiliation: 50, anxiety: 59, depression: 90, level_mental_health: 'critical', stress: 100, uncertainty: 95 } satisfies CvBasedQuestionnaireResponse) } }, '/quiz/result')}>Skip</button>
       )}
-      <LoadingResults visible={loadingResults} />
-    </QuizPageWrapper>
+      <QuizPageWrapper>
+        {!loadingResults && (
+          <>
+            <QuestionContent 
+              questionNumber={questionNumber}
+              onSubmit={handleSubmit}
+              onGoBack={() => router.back()}
+            />
+            <QuestionDecoration
+              questionNumber={questionNumber}
+            />
+          </>
+        )}
+        <LoadingResults visible={loadingResults} />
+      </QuizPageWrapper>
+    </>
   )
 }
 
