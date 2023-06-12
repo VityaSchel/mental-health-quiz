@@ -1,6 +1,7 @@
+import React from 'react'
+import styles from './styles.module.scss'
 import { createPortal } from 'react-dom'
 import cx from 'classnames'
-import styles from './styles.module.scss'
 import CloseIcon from './close.svg'
 import { useHotkeys } from 'react-hotkeys-hook'
 
@@ -9,7 +10,21 @@ export function Modal({ visible, children, onClose, className, ...props }: React
   className?: string
   onClose?: () => any
 }>) {
-  useHotkeys('esc', () => onClose?.())
+  useHotkeys('esc', () => visible && onClose?.(), [visible, onClose])
+  const modalRef = React.useRef<HTMLDivElement>(null)
+  const randomModalID = React.useRef<number | undefined>()
+
+  React.useEffect(() => {
+    const root = document.querySelector('html')
+    if (root && modalRef.current) {
+      if (visible) {
+        if (randomModalID.current === undefined) randomModalID.current = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)
+        root.classList.add('scroll-lock-' + randomModalID.current)
+      } else {
+        root.classList.remove('scroll-lock-' + randomModalID.current)
+      }
+    }
+  }, [modalRef, visible])
 
   return createPortal(
     <div
@@ -18,6 +33,7 @@ export function Modal({ visible, children, onClose, className, ...props }: React
         if (e.target !== e.currentTarget) return false
         onClose?.()
       }}
+      ref={modalRef}
     >
       <div className={cx(styles.modal, className)} {...props}>
         {children}

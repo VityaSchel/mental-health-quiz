@@ -5,6 +5,8 @@ import { ResultPageWrapper } from '@/widgets/quiz-results/result-page-wrapper'
 import { useRouter } from 'next/router'
 import { CvBasedQuestionnaireResponse } from '@/shared/api/ApiDefinitions'
 import { JSONParse } from '@/shared/utils/safe-json-parse'
+import Script from 'next/script'
+import { PlanContents } from '@/widgets/quiz-results/plan-contents'
 
 // @ts-expect-error It will not render until filled
 export const CVResultContext = React.createContext<CvBasedQuestionnaireResponse>()
@@ -26,11 +28,15 @@ export default function Result() {
   if(!cv) return <></>
 
   return (
-    <CVResultContext.Provider value={cv}>
-      <ResultPageWrapper>
-        <FirstSection />
-        <StateIndicatorWidget />
-      </ResultPageWrapper>
-    </CVResultContext.Provider>
+    <>
+      <CVResultContext.Provider value={cv}>
+        <ResultPageWrapper>
+          <FirstSection />
+          <StateIndicatorWidget />
+          <PlanContents />
+        </ResultPageWrapper>
+      </CVResultContext.Provider>
+      <Script src='https://widget.cloudpayments.ru/bundles/cloudpayments.js' />
+    </>
   )
 }

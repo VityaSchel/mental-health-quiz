@@ -2,4 +2,13 @@
   background-image: url('../../../assets/backgrounds/standalone-results.svg');
   background-position: top center;
   background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+
+  .wrapper {
+    max-width: 1680px;
+    width: 100%;
+  }
 }

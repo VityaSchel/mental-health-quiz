@@ -1,0 +1,57 @@
+@use '@/shared/styles/variables.scss' as variables;
+
+.card {
+  background: #FFFFFF;
+  box-shadow: 0px 0px 40px rgba(29, 36, 54, 0.05);
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-direction: column;
+  padding: 24px;
+
+  @media screen and (max-width: variables.$breakpoint-tablet) {
+    padding: 20px;
+  }
+
+  .icon {
+    width: 80px;
+    height: 80px;
+    padding: 20px;
+
+    background: #F3F5FB;
+    border-radius: 222px;
+  }
+
+  .text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    gap: 8px;
+    text-align: center;
+    font-family: 'Inter';
+
+    .title {
+      font-weight: 500;
+      font-size: 20px;
+      line-height: 120%;
+
+      @media screen and (max-width: variables.$breakpoint-tablet) {
+        font-size: 14px;
+      }
+    }
+
+    .caption {
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 140%;
+      color: #B6BED0;
+
+      @media screen and (max-width: variables.$breakpoint-tablet) {
+        font-size: 13px;
+      }
+    }
+  }
+}

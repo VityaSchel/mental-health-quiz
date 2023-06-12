@@ -4,6 +4,7 @@ import { Formik } from 'formik'
 import * as Yup from 'yup'
 import Input from '@x5io/flat-uikit/dist/input'
 import { Button } from '@/shared/ui/button'
+import { CloudpaymentsPaymentResponse, ErrorResponse, PaymentRequired } from '@/shared/api/ApiDefinitions'
 
 
 export function GetPlanModal({ visible, onClose }: {
@@ -26,11 +27,43 @@ export function GetPlanModal({ visible, onClose }: {
           })
         }
         validateOnChange={false}
-        onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2))
-            setSubmitting(false)
-          }, 400)
+        onSubmit={async (values, { setSubmitting, setErrors }) => {
+          try {
+            const request = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/send_plan_mail', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                email: values.email
+              })
+            })
+            if (request.status === 400 || request.status === 500) {
+              const response = await request.json() as ErrorResponse
+              setErrors({ email: response.message || 'Ошибка' })
+            } else {
+              const response = await request.json() as PaymentRequired
+              await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + `/payments/${response.paymentId}/set-email`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  email: values.email
+                })
+              })
+              const cpRequest = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + `/payments/${response.paymentId}/cloudpayments`)
+              const cpResponse = await cpRequest.json() as CloudpaymentsPaymentResponse
+              // @ts-expect-error CP has no TS declarations
+              const widget = new window.cp.CloudPayments()
+              widget.pay('auth',
+                cpResponse,
+                {
+                  onSuccess: () => {
+                    alert('s')  
+                  }
+                }
+              )
+            }
+          } catch(e) {
+            setErrors({ email: 'Ошибка' })
+          }
         }}
       >
         {({
@@ -51,7 +84,6 @@ export function GetPlanModal({ visible, onClose }: {
               label='E-mail'
               placeholder='Адрес электронной почты'
             />
-            {errors.email && touched.email && errors.email}
             <Button variant='contained' type="submit" disabled={isSubmitting}>
               Отправить
             </Button>

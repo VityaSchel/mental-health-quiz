@@ -26,6 +26,7 @@
     gap: 32px;
 
     width: 560px;
+    max-width: calc(100% - 20px*2);
 
     background: #FFFFFF;
     border-radius: 40px;

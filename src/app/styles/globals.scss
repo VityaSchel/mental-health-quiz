@@ -8,3 +8,7 @@ html, body {
 * {
   box-sizing: border-box;
 }
+
+html[class*=scroll-lock] {
+  overflow: hidden !important;
+}
