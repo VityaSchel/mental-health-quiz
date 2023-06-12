@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import { CvBasedQuestionnaireResponse } from '@/shared/api/ApiDefinitions'
 import { JSONParse } from '@/shared/utils/safe-json-parse'
 import Script from 'next/script'
+import { LastSection } from '@/widgets/quiz-results/last-section'
 
 // @ts-expect-error It will not render until filled
 export const CVResultContext = React.createContext<CvBasedQuestionnaireResponse>()
@@ -36,6 +37,7 @@ export default function Result() {
           <StateIndicatorWidget />
           <PlanContents />
           <Reviews />
+          <LastSection />
         </ResultPageWrapper>
       </CVResultContext.Provider>
       <Script src='https://widget.cloudpayments.ru/bundles/cloudpayments.js' />
