@@ -6,6 +6,7 @@
   line-height: 110%;
   color: variables.$primary-color;
   margin: 0;
+  font-feature-settings: 'pnum' on, 'lnum' on;
 
   strong {
     font-style: normal;

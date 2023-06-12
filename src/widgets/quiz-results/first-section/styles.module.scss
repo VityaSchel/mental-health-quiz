@@ -9,9 +9,12 @@
   isolation: isolate;
   width: 100%;
 
+  @media screen and (max-width: 1080px) {
+    flex-direction: column-reverse;
+  }
+
   @media screen and (max-width: variables.$breakpoint-tablet) {
     padding: 16px;
-    flex-direction: column-reverse;
     padding-top: 61px;
     gap: 32px;
   }

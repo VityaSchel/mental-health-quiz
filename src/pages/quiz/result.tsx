@@ -2,11 +2,12 @@ import React from 'react'
 import { FirstSection } from '@/widgets/quiz-results/first-section'
 import { StateIndicatorWidget } from '@/widgets/quiz-results/state-indicator'
 import { ResultPageWrapper } from '@/widgets/quiz-results/result-page-wrapper'
+import { PlanContents } from '@/widgets/quiz-results/plan-contents'
+import { Reviews } from '@/widgets/quiz-results/reviews'
 import { useRouter } from 'next/router'
 import { CvBasedQuestionnaireResponse } from '@/shared/api/ApiDefinitions'
 import { JSONParse } from '@/shared/utils/safe-json-parse'
 import Script from 'next/script'
-import { PlanContents } from '@/widgets/quiz-results/plan-contents'
 
 // @ts-expect-error It will not render until filled
 export const CVResultContext = React.createContext<CvBasedQuestionnaireResponse>()
@@ -34,6 +35,7 @@ export default function Result() {
           <FirstSection />
           <StateIndicatorWidget />
           <PlanContents />
+          <Reviews />
         </ResultPageWrapper>
       </CVResultContext.Provider>
       <Script src='https://widget.cloudpayments.ru/bundles/cloudpayments.js' />
