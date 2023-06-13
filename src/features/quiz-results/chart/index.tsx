@@ -7,10 +7,11 @@ import {
   // Tooltip
 } from 'chart.js'
 import { PolarArea } from 'react-chartjs-2'
-import { drawCircleBackground } from '@/shared/utils/chart-js-plugins'
+import { drawCircleBackground, drawCircleInner, drawLabelsIcons } from '@/shared/utils/chart-js-plugins'
 import { CvBasedQuestionnaireResponse } from '@/shared/api/ApiDefinitions'
+import { colorMix } from '@/shared/utils/colors-mix'
 
-ChartJS.register(RadialLinearScale, ArcElement, /*Tooltip, */drawCircleBackground) 
+ChartJS.register(RadialLinearScale, ArcElement, /*Tooltip, */drawCircleBackground, drawCircleInner, drawLabelsIcons) 
 
 type GradientType = 'DANGER' | 'WARNING' | 'LOW' | 'SAFE'
 const generateGradients = (ctx: CanvasRenderingContext2D): { [key in GradientType]: CanvasGradient } => {
@@ -83,6 +84,11 @@ export default function Chart({ cv }: {
       ))
     }
   }, [chartRef, setData])
+
+  
+  const bgColor = ['risky', 'normal'].includes(cv.level_mental_health)
+    ? colorMix([243, 245, 251], [29, 36, 54, 0.2])
+    : colorMix([243, 245, 251], [226, 65, 30, 0.2])
   
   return (
     <div className={styles.chart}>
@@ -93,33 +99,35 @@ export default function Chart({ cv }: {
           scales: {
             r: {
               ticks: {
-                display: false
+                display: false,
+                stepSize: 100/6
               },
               grid: {
                 color: '#fff',
                 z: 1,
-                stepSize: 100/6
+                // tickLength: 100/1
               },
-              max: 100
-              // pointLabels: {
-              //   display: true,
-              //   centerPointLabels: true,
-              //   font: {
-              //     size: 14
-              //   },
-              //   color: 'rgba(114, 123, 148, 1)'
-              // }
+              max: 100,
+              pointLabels: {
+                display: true,
+                centerPointLabels: true,
+                font: {
+                  size: 14
+                },
+                color: 'rgba(114, 123, 148, 1)'
+              }
             }
           },
           plugins: {
             canvas_circle_background: { 
-              color: ['risky', 'normal'].includes(cv.level_mental_health)
-                ? 'rgba(29, 36, 54, 0.05)'
-                : 'rgba(226, 65, 30, 0.15)'
-            } 
+              color: bgColor
+            },
+            canvas_circle_inner: {
+              color: bgColor
+            }
           }
         }}
-        plugins={[drawCircleBackground]}
+        plugins={[drawCircleBackground, drawCircleInner, drawLabelsIcons]}
       />
     </div>
   )
