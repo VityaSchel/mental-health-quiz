@@ -5,7 +5,7 @@ import { Formik } from 'formik'
 import * as Yup from 'yup'
 import Input from '@x5io/flat-uikit/dist/input'
 import { Button } from '@/shared/ui/button'
-import { CloudpaymentsPaymentResponse, ErrorResponse, PaymentRequired, WidgetCloudpaymentsPaymentResponse } from '@/shared/api/ApiDefinitions'
+import { ErrorResponse, PayWidgetCloudpaymentsResponse, PaymentRequired, WidgetCloudpaymentsPaymentResponse } from '@/shared/api/ApiDefinitions'
 import Checkbox from '@x5io/flat-uikit/dist/checkbox'
 import { hasCheckboxes } from '@x5io/ads_parameter'
 
@@ -14,39 +14,55 @@ export function GetPlanModal({ visible, onClose }: {
   onClose: () => any
 }) {
   const [email, setEmail] = React.useState('')
+  const [paymentId, setPaymentId] = React.useState('')
   const [paymentDetails, setPaymentDetails] = React.useState<WidgetCloudpaymentsPaymentResponse | null>(null)
+  const [isSuccess, setIsSuccess] = React.useState(true)
 
   const handleClose = () => {
     setEmail('')
+    setPaymentId('')
     setPaymentDetails(null)
+    setIsSuccess(false)
     onClose()
   }
 
   return (
     <Modal visible={visible} className={styles.modal} onClose={handleClose}>
-      <div className={styles.headline}>
-        <span className={styles.h1}>Получите план на электронную почту</span>
-        <span className={styles.h2}>Укажите e-mail, куда мы отправим ваш персональный план улучшения ментального здоровья</span>
-      </div>
       {
-        email && paymentDetails
-          ? (
-            <Screen2 
-              email={email} 
-              paymentDetails={paymentDetails} 
-              onCancel={() => {
-                setEmail('')
-                setPaymentDetails(null)
-              }}  
-            />
-          )
+        isSuccess
+          ? <Screen3 onClose={handleClose} />
           : (
-            <Screen1 
-              onSubmit={(email, paymentDetails) => {
-                setEmail(email)
-                setPaymentDetails(paymentDetails)
-              }} 
-            />
+            <>
+              <div className={styles.headline}>
+                <span className={styles.h1}>Получите план на электронную почту</span>
+                <span className={styles.h2}>Укажите e-mail, куда мы отправим ваш персональный план улучшения ментального здоровья</span>
+              </div>
+              {
+                email && paymentDetails
+                  ? (
+                    <Screen2
+                      paymentId={paymentId}
+                      email={email}
+                      paymentDetails={paymentDetails}
+                      onCancel={() => {
+                        setEmail('')
+                        setPaymentId('')
+                        setPaymentDetails(null)
+                      }}
+                      onSuccess={() => setIsSuccess(true)}
+                    />
+                  )
+                  : (
+                    <Screen1
+                      onSubmit={(email, paymentId, paymentDetails) => {
+                        setEmail(email)
+                        setPaymentId(paymentId)
+                        setPaymentDetails(paymentDetails)
+                      }}
+                    />
+                  )
+              }     
+            </>
           )
       }
     </Modal>
@@ -54,7 +70,7 @@ export function GetPlanModal({ visible, onClose }: {
 }
 
 export function Screen1({ onSubmit }: {
-  onSubmit: (email: string, paymentDetails: WidgetCloudpaymentsPaymentResponse) => any
+  onSubmit: (email: string, paymentId: string, paymentDetails: WidgetCloudpaymentsPaymentResponse) => any
 }) {
   return (
     <Formik
@@ -90,7 +106,7 @@ export function Screen1({ onSubmit }: {
             })
             const cpRequest = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + `/payments/${response.paymentId}/cloudpayments/widget`)
             const cpResponse = await cpRequest.json() as WidgetCloudpaymentsPaymentResponse
-            onSubmit(values.email, cpResponse)
+            onSubmit(values.email, response.paymentId, cpResponse)
             setSubmitting(false)
           }
         } catch (e) {
@@ -102,9 +118,7 @@ export function Screen1({ onSubmit }: {
       {({
         values,
         errors,
-        touched,
         handleChange,
-        handleBlur,
         handleSubmit,
         isSubmitting
       }) => (
@@ -126,10 +140,12 @@ export function Screen1({ onSubmit }: {
   )
 }
 
-export function Screen2({ email, paymentDetails, onCancel }: {
+export function Screen2({ email, paymentId, paymentDetails, onCancel, onSuccess }: {
+  paymentId: string
   email: string
   paymentDetails: WidgetCloudpaymentsPaymentResponse
   onCancel: () => any
+  onSuccess: () => any
 }) {
   return (
     <Formik
@@ -145,17 +161,15 @@ export function Screen2({ email, paymentDetails, onCancel }: {
         })
       }
       validateOnChange={false}
-      onSubmit={async (values, { setSubmitting, setErrors }) => {
+      onSubmit={async (values, { setSubmitting }) => {
         try {
+          const request = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + `/payments/${paymentId}/cloudpayments/widget/pay`)
+          const response = await request.json() as PayWidgetCloudpaymentsResponse
           // @ts-expect-error CP has no TS declarations
-          const widget = new window.cp.CloudPayments()
-          widget.pay('auth',
-            paymentDetails,
-            {
-              onSuccess: () => {
-                alert('s')
-              }
-            }
+          const widget = new cp.CloudPayments()
+          widget.pay('charge',
+            response.cloudpayments,
+            { onSuccess: onSuccess() }
           )
           setSubmitting(false)
         } catch (e) {
@@ -167,9 +181,7 @@ export function Screen2({ email, paymentDetails, onCancel }: {
       {({
         values,
         errors,
-        touched,
         handleChange,
-        handleBlur,
         handleSubmit,
         isSubmitting
       }) => (
@@ -205,5 +217,19 @@ export function Screen2({ email, paymentDetails, onCancel }: {
         </form>
       )}
     </Formik>
+  )
+}
+
+function Screen3({ onClose }: {
+  onClose: () => any
+}) {
+  return (
+    <>
+      <div className={styles.headline}>
+        <span className={styles.h1}>Готово!</span>
+        <span className={styles.h2}>Персональный план был отправлен на ваш e-mail</span>
+      </div>
+      <Button variant='contained' className={styles.continue} onClick={onClose}>Продолжить</Button>
+    </>
   )
 }
