@@ -18,7 +18,8 @@ export default function Result() {
   const router = useRouter()
 
   React.useEffect(() => {
-    const cv = JSONParse(router.query.cv)
+    const cvResultsCached = window.localStorage.getItem('cv_results')
+    const cv = JSONParse(router.query.cv ?? cvResultsCached)
     if(!cv) {
       router.replace('/quiz/1')
       return

@@ -37,7 +37,9 @@ export default function Quiz() {
       setLoadingResults(true)
       getCv(newFormData)
         .then((cv) => {
-          router.push({ pathname: '/quiz/result', query: { cv: JSON.stringify(cv) } }, '/quiz/result')
+          const results = JSON.stringify(cv)
+          window.localStorage.setItem('cv_results', results)
+          router.push({ pathname: '/quiz/result', query: { cv: results } }, '/quiz/result')
         })
         .catch(() => alert('Ошибка!'))
     } else {

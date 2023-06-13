@@ -1679,10 +1679,17 @@
     "@typescript-eslint/types" "5.58.0"
     eslint-visitor-keys "^3.3.0"
 
-"@x5io/flat-uikit@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.npmjs.org/@x5io/flat-uikit/-/flat-uikit-1.1.1.tgz"
-  integrity sha512-Xz41gOPcJAmbxP7RXFwOMlIUeJqGzmmjglEOM/2TEFi89rEPCkcjnq05gZl1PhPE9tziHW2JyYnNblCqZ/RaaQ==
+"@x5io/ads_parameter@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.npmjs.org/@x5io/ads_parameter/-/ads_parameter-1.0.2.tgz"
+  integrity sha512-uoZFh1kZnLyOeOgzvpKJaF2+BYyhPGk43sdo3GxA8D9I7lZ30rmmOEwYpdM4WlsFoATg4sN1gOZ+g5H23bMubQ==
+  dependencies:
+    js-cookie "^3.0.1"
+
+"@x5io/flat-uikit@^1.1.3":
+  version "1.1.3"
+  resolved "https://registry.npmjs.org/@x5io/flat-uikit/-/flat-uikit-1.1.3.tgz"
+  integrity sha512-R87/4fUclVrwZT/kq1ZuR8gQtokePa2dlbvYYRCsW+4766c2xwwyVgEJ2OdWRoUqCDo95Db/owpHDKfcDCKnow==
   dependencies:
     "@emotion/react" "^11.10.6"
     "@emotion/styled" "^11.10.6"
@@ -3208,6 +3215,11 @@ isexe@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/isexe/-/isexe-2.0.0.tgz"
   integrity sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==
+
+js-cookie@^3.0.1:
+  version "3.0.5"
+  resolved "https://registry.npmjs.org/js-cookie/-/js-cookie-3.0.5.tgz"
+  integrity sha512-cEiJEAEoIbWfCZYKWhVwFuvPX1gETRYPw6LlaTKoxD3s2AkXzkCjnp6h0V77ozyqj0jakteJ4YqDJT830+lVGw==
 
 js-sdsl@^4.1.4:
   version "4.4.0"

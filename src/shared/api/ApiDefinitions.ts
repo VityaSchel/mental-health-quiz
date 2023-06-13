@@ -9,11 +9,7 @@
  * ---------------------------------------------------------------
  */
 
-export interface CloudpaymentsNotificationResponse {
-  code: number;
-}
-
-export interface CloudpaymentsPaymentResponse {
+export interface CheckoutCloudpaymentsPaymentResponse {
   amount: number;
   amountWithoutDiscount: number;
   cloudpaymentsPublicId: string;
@@ -21,6 +17,10 @@ export interface CloudpaymentsPaymentResponse {
   money: string;
   moneyWithoutDiscount: string;
   status: string;
+}
+
+export interface CloudpaymentsNotificationResponse {
+  code: number;
 }
 
 export interface CloudpaymentsReceipt {
@@ -79,11 +79,11 @@ export interface ErrorResponse {
   message: string;
 }
 
-export interface PayCloudpaymentsBody {
+export interface PayCheckoutCloudpaymentsBody {
   cryptogram: string;
 }
 
-export interface PayCloudpaymentsResponse {
+export interface PayCheckoutCloudpaymentsResponse {
   MD: string;
   PaReq: string;
   TermUrl: string;
@@ -95,6 +95,17 @@ export interface PayCloudpaymentsResponse {
   }[];
   /** @example "https://demo.cloudpayments.ru/acs" */
   redirectUrl: string;
+}
+
+export interface PayWidgetCloudpaymentsResponse {
+  cloudpayments: {
+    accountId: string;
+    amount: number;
+    currency: string;
+    description: string;
+    invoiceId: string;
+    publicId: string;
+  };
 }
 
 export interface PaymentRequired {
@@ -116,6 +127,15 @@ export interface SendPlanMailBody {
 export interface SubscriptionUnsubscribeBody {
   firstNumbers: string;
   lastNumbers: string;
+}
+
+export interface WidgetCloudpaymentsPaymentResponse {
+  amount: number;
+  amountWithoutDiscount: number;
+  email: string;
+  firstCheckbox: string;
+  secondCheckbox: string;
+  status: string;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -445,13 +465,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
-     * @tags payment_cloudpayments
-     * @name CloudpaymentsDetail
-     * @request GET:/payments/{id}/cloudpayments
+     * @tags payment_cloudpayments_checkout
+     * @name CloudpaymentsCheckoutDetail
+     * @request GET:/payments/{id}/cloudpayments/checkout
      */
-    cloudpaymentsDetail: (id: string, params: RequestParams = {}) =>
-      this.request<CloudpaymentsPaymentResponse, ErrorResponse>({
-        path: `/payments/${id}/cloudpayments`,
+    cloudpaymentsCheckoutDetail: (id: string, params: RequestParams = {}) =>
+      this.request<CheckoutCloudpaymentsPaymentResponse, ErrorResponse>({
+        path: `/payments/${id}/cloudpayments/checkout`,
         method: "GET",
         ...params,
       }),
@@ -459,11 +479,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
-     * @tags payment_cloudpayments
-     * @name CloudpaymentsComplete3DsCreate
-     * @request POST:/payments/{id}/cloudpayments/complete3ds
+     * @tags payment_cloudpayments_checkout
+     * @name CloudpaymentsCheckoutComplete3DsCreate
+     * @request POST:/payments/{id}/cloudpayments/checkout/complete3ds
      */
-    cloudpaymentsComplete3DsCreate: (
+    cloudpaymentsCheckoutComplete3DsCreate: (
       id: string,
       data: {
         MD: number;
@@ -472,7 +492,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<any, void | ErrorResponse>({
-        path: `/payments/${id}/cloudpayments/complete3ds`,
+        path: `/payments/${id}/cloudpayments/checkout/complete3ds`,
         method: "POST",
         body: data,
         type: ContentType.FormData,
@@ -482,16 +502,48 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
-     * @tags payment_cloudpayments
-     * @name CloudpaymentsPayCreate
-     * @request POST:/payments/{id}/cloudpayments/pay
+     * @tags payment_cloudpayments_checkout
+     * @name CloudpaymentsCheckoutPayCreate
+     * @request POST:/payments/{id}/cloudpayments/checkout/pay
      */
-    cloudpaymentsPayCreate: (id: string, pay_payment_cloudpayments: PayCloudpaymentsBody, params: RequestParams = {}) =>
-      this.request<PayCloudpaymentsResponse, ErrorResponse>({
-        path: `/payments/${id}/cloudpayments/pay`,
+    cloudpaymentsCheckoutPayCreate: (
+      id: string,
+      pay_payment_cloudpayments: PayCheckoutCloudpaymentsBody,
+      params: RequestParams = {},
+    ) =>
+      this.request<PayCheckoutCloudpaymentsResponse, ErrorResponse>({
+        path: `/payments/${id}/cloudpayments/checkout/pay`,
         method: "POST",
         body: pay_payment_cloudpayments,
         type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags payment_cloudpayments_widget
+     * @name CloudpaymentsWidgetDetail
+     * @request GET:/payments/{id}/cloudpayments/widget
+     */
+    cloudpaymentsWidgetDetail: (id: string, params: RequestParams = {}) =>
+      this.request<WidgetCloudpaymentsPaymentResponse, ErrorResponse>({
+        path: `/payments/${id}/cloudpayments/widget`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags payment_cloudpayments_widget
+     * @name CloudpaymentsWidgetPayDetail
+     * @request GET:/payments/{id}/cloudpayments/widget/pay
+     */
+    cloudpaymentsWidgetPayDetail: (id: string, params: RequestParams = {}) =>
+      this.request<PayWidgetCloudpaymentsResponse, ErrorResponse>({
+        path: `/payments/${id}/cloudpayments/widget/pay`,
+        method: "GET",
         ...params,
       }),
 
