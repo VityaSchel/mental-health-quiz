@@ -11,22 +11,22 @@ export function Cards() {
     <div className={styles.cardsContainer}>
       <div className={styles.cards}>
         <PlanContentsCard 
-          icon={<Image src={Angry} alt='' width={40} height={40} />}
+          icon={<Image src={Angry} alt='' width={40} height={40} quality={100} />}
           title={'Тревожность'}
           caption={'Поможем стать намного спокойнее за счёт дыхания, йоги и медитации'}
         />
         <PlanContentsCard 
-          icon={<Image src={Sad} alt='' width={40} height={40} />}
+          icon={<Image src={Sad} alt='' width={40} height={40} quality={100} />}
           title={'Отношения с людьми'}
           caption={'Расскажем  быть открытым, внимательным и проявлять понимание'}
         />
         <PlanContentsCard 
-          icon={<Image src={Work} alt='' width={40} height={40} />}
+          icon={<Image src={Work} alt='' width={40} height={40} quality={100} />}
           title={'Учеба и работа'}
           caption={'Установим конкретные цели, поставим  приоритеты и научим планировать'}
         />
         <PlanContentsCard 
-          icon={<Image src={Sleep} alt='' width={40} height={40} />}
+          icon={<Image src={Sleep} alt='' width={40} height={40} quality={100} />}
           title={'Сон и питание'}
           caption={'Научим расслабляться перед сном и объясним как правильно питаться'}
         />
