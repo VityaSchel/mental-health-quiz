@@ -87,15 +87,28 @@ export default function Chart({ cv }: {
 
   
   const bgColor = ['risky', 'normal'].includes(cv.level_mental_health)
-    ? colorMix([243, 245, 251], [29, 36, 54, 0.2])
+    ? colorMix([243, 245, 251], [29, 36, 54, 0.05])
     : colorMix([243, 245, 251], [226, 65, 30, 0.2])
+
+  const c = (value: number) => {
+    if(value < 33) {
+      return 'transparent'
+    } else if(value < 66) {
+      return '#F59138'
+    } else {
+      return '#E64A4A'
+    }
+  }
   
   return (
     <div className={styles.chart}>
-      <PolarArea 
+      <PolarArea
         ref={chartRef} 
         data={data} 
+        width={'560px'}
+        height={'500px'}
         options={{
+          maintainAspectRatio: false,
           scales: {
             r: {
               ticks: {
@@ -114,6 +127,7 @@ export default function Chart({ cv }: {
                 font: {
                   size: 14
                 },
+                padding: 30,
                 color: 'rgba(114, 123, 148, 1)'
               }
             }
@@ -124,7 +138,16 @@ export default function Chart({ cv }: {
             },
             canvas_circle_inner: {
               color: bgColor
-            }
+            },
+            canvas_labels_icons: {
+              colors: [
+                c(cv.uncertainty),
+                c(cv.anxiety),
+                c(cv.stress),
+                c(cv.depression),
+                c(cv.affiliation),
+              ]
+            }            
           }
         }}
         plugins={[drawCircleBackground, drawCircleInner, drawLabelsIcons]}
