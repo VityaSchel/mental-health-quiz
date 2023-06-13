@@ -9,6 +9,15 @@
  * ---------------------------------------------------------------
  */
 
+export interface AdvertisingCompanyBody {
+  status: "active" | "canceled";
+}
+
+export interface AdvertisingCompanyResponse {
+  id: number;
+  status: string;
+}
+
 export interface CheckoutCloudpaymentsPaymentResponse {
   amount: number;
   amountWithoutDiscount: number;
@@ -355,6 +364,35 @@ export class HttpClient<SecurityDataType = unknown> {
  * Mental
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
+  advertisingCompanies = {
+    /**
+     * No description
+     *
+     * @tags advertising_company
+     * @name AdvertisingCompaniesList
+     * @request GET:/advertising_companies
+     */
+    advertisingCompaniesList: (params: RequestParams = {}) =>
+      this.request<AdvertisingCompanyResponse[], ErrorResponse>({
+        path: `/advertising_companies`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags advertising_companies
+     * @name AdvertisingCompaniesDetail
+     * @request GET:/advertising_companies/{id}
+     */
+    advertisingCompaniesDetail: (id: number, params: RequestParams = {}) =>
+      this.request<AdvertisingCompanyResponse, ErrorResponse>({
+        path: `/advertising_companies/${id}`,
+        method: "GET",
+        ...params,
+      }),
+  };
   cvBasedQuestionnaire = {
     /**
      * No description
@@ -587,14 +625,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags subscription
      * @name UnsubscribeCreate
      * @request POST:/subscriptions/unsubscribe
-     * @secure
      */
     unsubscribeCreate: (subscription_unsubscribe: SubscriptionUnsubscribeBody, params: RequestParams = {}) =>
       this.request<void, ErrorResponse>({
         path: `/subscriptions/unsubscribe`,
         method: "POST",
         body: subscription_unsubscribe,
-        secure: true,
         type: ContentType.Json,
         ...params,
       }),

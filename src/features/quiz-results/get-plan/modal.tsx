@@ -8,6 +8,7 @@ import { Button } from '@/shared/ui/button'
 import { ErrorResponse, PayWidgetCloudpaymentsResponse, PaymentRequired, WidgetCloudpaymentsPaymentResponse } from '@/shared/api/ApiDefinitions'
 import Checkbox from '@x5io/flat-uikit/dist/checkbox'
 import { hasCheckboxes } from '@x5io/ads_parameter'
+import { useRouter } from 'next/router'
 
 export function GetPlanModal({ visible, onClose }: {
   visible: boolean
@@ -16,7 +17,7 @@ export function GetPlanModal({ visible, onClose }: {
   const [email, setEmail] = React.useState('')
   const [paymentId, setPaymentId] = React.useState('')
   const [paymentDetails, setPaymentDetails] = React.useState<WidgetCloudpaymentsPaymentResponse | null>(null)
-  const [isSuccess, setIsSuccess] = React.useState(true)
+  const [isSuccess, setIsSuccess] = React.useState(false)
 
   const handleClose = () => {
     setEmail('')
@@ -61,7 +62,7 @@ export function GetPlanModal({ visible, onClose }: {
                       }}
                     />
                   )
-              }     
+              }
             </>
           )
       }
@@ -147,17 +148,33 @@ export function Screen2({ email, paymentId, paymentDetails, onCancel, onSuccess 
   onCancel: () => any
   onSuccess: () => any
 }) {
+  const router = useRouter()
+  const [checkboxesVisible, setCheckboxesVisible] = React.useState(true)
+
+  React.useEffect(() => {
+    checkAds()
+  }, [router.query.ads])
+
+  const checkAds = async () => {
+    const ads = router.query.ads
+    const request = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + `/advertising_companies/${ads}`)
+    const response = await request.json()
+    setCheckboxesVisible(hasCheckboxes(response.status === 'in_process'))
+  }
+
   return (
     <Formik
       initialValues={{ firstCheckbox: false, secondCheckbox: false }}
       validationSchema={
         Yup.object({
-          firstCheckbox: Yup.bool()
-            .oneOf([true], ' ')
-            .required(' '),
-          secondCheckbox: Yup.bool()
-            .oneOf([true], ' ')
-            .required(' ')
+          ...(checkboxesVisible && ({
+            firstCheckbox: Yup.bool()
+              .oneOf([true], ' ')
+              .required(' '),
+            secondCheckbox: Yup.bool()
+              .oneOf([true], ' ')
+              .required(' ')
+          }))
         })
       }
       validateOnChange={false}
@@ -195,22 +212,24 @@ export function Screen2({ email, paymentId, paymentDetails, onCancel, onSuccess 
             />
             <button className={styles.edit} onClick={onCancel}>Изменить</button>
           </div>
-          <Checkbox
-            value={values.firstCheckbox}
-            onChange={handleChange}
-            name='firstCheckbox'
-            error={errors.firstCheckbox}
-          >
-            {paymentDetails.firstCheckbox}
-          </Checkbox>
-          <Checkbox
-            value={values.secondCheckbox}
-            onChange={handleChange}
-            name='secondCheckbox'
-            error={errors.secondCheckbox}
-          >
-            {paymentDetails.secondCheckbox}
-          </Checkbox>
+          {checkboxesVisible && (<>
+            <Checkbox
+              value={values.firstCheckbox}
+              onChange={handleChange}
+              name='firstCheckbox'
+              error={errors.firstCheckbox}
+            >
+              {paymentDetails.firstCheckbox}
+            </Checkbox>
+            <Checkbox
+              value={values.secondCheckbox}
+              onChange={handleChange}
+              name='secondCheckbox'
+              error={errors.secondCheckbox}
+            >
+              {paymentDetails.secondCheckbox}
+            </Checkbox>
+          </>)}
           <Button variant='contained' type="submit" disabled={isSubmitting || !values.firstCheckbox || !values.secondCheckbox}>
             Оплатить {paymentDetails.amount}₽ <span className={styles.oldPrice}>{paymentDetails.amountWithoutDiscount}₽</span>
           </Button>
