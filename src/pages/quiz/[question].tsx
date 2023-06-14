@@ -31,17 +31,17 @@ export default function Quiz() {
     }
   }, [questionNumber, router])
   
-  const handleSubmit = (answerKey: string | string[]) => {
+  const handleSubmit = async (answerKey: string | string[]) => {
     const newFormData = Object.assign(formData, { [quizQuestions[questionNumber - 1].questionKey]: answerKey }) as object as CvBasedQuestionnaireBody
     if (lastQuestion) {
       setLoadingResults(true)
-      getCv(newFormData)
-        .then((cv) => {
-          const results = JSON.stringify(cv)
-          window.localStorage.setItem('cv_results', results)
-          router.push({ pathname: '/quiz/result', query: { cv: results } }, '/quiz/result')
-        })
-        .catch(() => alert('Ошибка!'))
+      const [cv] = await Promise.all([
+        getCv(newFormData),
+        new Promise(resolve => setTimeout(resolve, 5000)),
+      ])
+      const results = JSON.stringify(cv)
+      window.localStorage.setItem('cv_results', results)
+      router.push({ pathname: '/quiz/result', query: { cv: results } }, '/quiz/result')
     } else {
       router.push({ 
         pathname: nextPage, 
