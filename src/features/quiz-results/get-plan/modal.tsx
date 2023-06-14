@@ -230,8 +230,9 @@ export function Screen2({ email, paymentId, paymentDetails, onCancel, onSuccess 
               {paymentDetails.secondCheckbox}
             </Checkbox>
           </>)}
-          <Button variant='contained' type="submit" disabled={isSubmitting || !values.firstCheckbox || !values.secondCheckbox}>
-            Оплатить {paymentDetails.amount}₽ <span className={styles.oldPrice}>{paymentDetails.amountWithoutDiscount}₽</span>
+          <Button variant='contained' type="submit" disabled={isSubmitting || (checkboxesVisible && (!values.firstCheckbox || !values.secondCheckbox))}>
+            {/* Оплатить {paymentDetails.amount}₽ <span className={styles.oldPrice}>{paymentDetails.amountWithoutDiscount}₽</span> */}
+            Отправить
           </Button>
         </form>
       )}

@@ -12,6 +12,9 @@ const nextConfig = {
     )
     return config
   },
+  redirects: () => [
+    { source: '/', destination: '/quiz/1', permanent: false }
+  ],
   eslint: {
     ignoreDuringBuilds: true
   },
