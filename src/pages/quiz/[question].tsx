@@ -1,4 +1,5 @@
 import React from 'react'
+import { RawHTML } from 'react-dom'
 import { useRouter } from 'next/router'
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next'
 
@@ -70,6 +71,7 @@ export default function Quiz() {
         )}
         <LoadingResults visible={loadingResults} />
       </QuizPageWrapper>
+      <div style={{ display: 'none' }} dangerouslySetInnerHTML={{ __html: process.env.NEXT_PUBLIC_METRICA_HOMEPAGE ?? '<div></div>' }} />
     </>
   )
 }
