@@ -28,45 +28,48 @@ export function GetPlanModal({ visible, onClose }: {
   }
 
   return (
-    <Modal visible={visible} className={styles.modal} onClose={handleClose}>
-      {
-        isSuccess
-          ? <Screen3 onClose={handleClose} />
-          : (
-            <>
-              <div className={styles.headline}>
-                <span className={styles.h1}>Получите план на электронную почту</span>
-                <span className={styles.h2}>Укажите e-mail, куда мы отправим ваш персональный план улучшения ментального здоровья</span>
-              </div>
-              {
-                email && paymentDetails
-                  ? (
-                    <Screen2
-                      paymentId={paymentId}
-                      email={email}
-                      paymentDetails={paymentDetails}
-                      onCancel={() => {
-                        setEmail('')
-                        setPaymentId('')
-                        setPaymentDetails(null)
-                      }}
-                      onSuccess={() => setIsSuccess(true)}
-                    />
-                  )
-                  : (
-                    <Screen1
-                      onSubmit={(email, paymentId, paymentDetails) => {
-                        setEmail(email)
-                        setPaymentId(paymentId)
-                        setPaymentDetails(paymentDetails)
-                      }}
-                    />
-                  )
-              }
-            </>
-          )
-      }
-    </Modal>
+    <>
+      <Modal visible={visible} className={styles.modal} onClose={handleClose}>
+        {
+          isSuccess
+            ? <Screen3 onClose={handleClose} />
+            : (
+              <>
+                <div className={styles.headline}>
+                  <span className={styles.h1}>Получите план на электронную почту</span>
+                  <span className={styles.h2}>Укажите e-mail, куда мы отправим ваш персональный план улучшения ментального здоровья</span>
+                </div>
+                {
+                  email && paymentDetails
+                    ? (
+                      <Screen2
+                        paymentId={paymentId}
+                        email={email}
+                        paymentDetails={paymentDetails}
+                        onCancel={() => {
+                          setEmail('')
+                          setPaymentId('')
+                          setPaymentDetails(null)
+                        }}
+                        onSuccess={() => setIsSuccess(true)}
+                      />
+                    )
+                    : (
+                      <Screen1
+                        onSubmit={(email, paymentId, paymentDetails) => {
+                          setEmail(email)
+                          setPaymentId(paymentId)
+                          setPaymentDetails(paymentDetails)
+                        }}
+                      />
+                    )
+                }
+              </>
+            )
+        }
+      </Modal>
+      {visible && <div style={{ display: 'none' }} dangerouslySetInnerHTML={{ __html: process.env.NEXT_PUBLIC_METRICA_PAY_MODAL ?? '<div></div>' }} />}
+    </>
   )
 }
 

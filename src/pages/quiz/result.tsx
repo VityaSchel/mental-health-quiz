@@ -42,6 +42,7 @@ export default function Result() {
         </ResultPageWrapper>
       </CVResultContext.Provider>
       <Script src='https://widget.cloudpayments.ru/bundles/cloudpayments.js' />
+      <div style={{ display: 'none' }} dangerouslySetInnerHTML={{ __html: process.env.NEXT_PUBLIC_METRICA_HOMEPAGE ?? '<div></div>' }} />
     </>
   )
 }
