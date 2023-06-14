@@ -76,6 +76,8 @@ export default function StateIndicatorBlock({ cv }: { cv: CvBasedQuestionnaireRe
                 risky: RiskyEmoji,
                 normal: NormalEmoji,
               }[cv.level_mental_health]} alt='' 
+              width={32}
+              height={32}
               className={styles.statusEmoji}
               style={{ left: `${statusEmojiLeftPos}%` }}
             />
