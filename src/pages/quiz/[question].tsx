@@ -31,6 +31,8 @@ export default function Quiz() {
       router.replace('/quiz/1')
     }
   }, [questionNumber, router])
+
+  const adsParameter = router.query.ads ? '?ads=' + router.query.ads : ''
   
   const handleSubmit = async (answerKey: string | string[]) => {
     const newFormData = Object.assign(formData, { [quizQuestions[questionNumber - 1].questionKey]: answerKey }) as object as CvBasedQuestionnaireBody
@@ -42,12 +44,12 @@ export default function Quiz() {
       ])
       const results = JSON.stringify(cv)
       window.localStorage.setItem('cv_results', results)
-      router.push({ pathname: '/quiz/result', query: { cv: results } }, '/quiz/result')
+      router.push({ pathname: '/quiz/result', query: { cv: results, ads: router.query.ads } }, '/quiz/result' + adsParameter)
     } else {
       router.push({ 
         pathname: nextPage, 
-        query: { data: JSON.stringify(newFormData) }
-      }, nextPage)
+        query: { data: JSON.stringify(newFormData), ads: router.query.ads }
+      }, nextPage + adsParameter)
     }
   }
 
