@@ -9,6 +9,7 @@ import { ErrorResponse, PayWidgetCloudpaymentsResponse, PaymentRequired, WidgetC
 import Checkbox from '@x5io/flat-uikit/dist/checkbox'
 import { hasCheckboxes } from '@x5io/ads_parameter'
 import { useRouter } from 'next/router'
+import { PaymentDetailsContext } from '@/pages/quiz/result'
 
 export function GetPlanModal({ visible, onClose }: {
   visible: boolean
@@ -153,6 +154,7 @@ export function Screen2({ email, paymentId, paymentDetails, onCancel, onSuccess 
 }) {
   const router = useRouter()
   const [checkboxesVisible, setCheckboxesVisible] = React.useState(true)
+  const initialPaymentDetails = React.useContext(PaymentDetailsContext)
 
   React.useEffect(() => {
     checkAds()
@@ -222,7 +224,7 @@ export function Screen2({ email, paymentId, paymentDetails, onCancel, onSuccess 
               name='firstCheckbox'
               error={errors.firstCheckbox}
             >
-              {paymentDetails.firstCheckbox}
+              {initialPaymentDetails?.firstCheckbox}
             </Checkbox>
             <Checkbox
               value={values.secondCheckbox}
@@ -230,7 +232,7 @@ export function Screen2({ email, paymentId, paymentDetails, onCancel, onSuccess 
               name='secondCheckbox'
               error={errors.secondCheckbox}
             >
-              {paymentDetails.secondCheckbox}
+              {initialPaymentDetails?.secondCheckbox}
             </Checkbox>
           </>)}
           <Button variant='contained' type="submit" disabled={isSubmitting || (checkboxesVisible && (!values.firstCheckbox || !values.secondCheckbox))}>

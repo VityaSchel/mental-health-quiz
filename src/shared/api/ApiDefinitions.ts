@@ -125,6 +125,13 @@ export interface PaymentSetEmailBody {
   email: string;
 }
 
+export interface PricesResponse {
+  amount: number;
+  amountWithoutDiscount: number;
+  firstCheckbox: string;
+  secondCheckbox: string;
+}
+
 export interface Principal {
   key: string;
 }
@@ -142,8 +149,6 @@ export interface WidgetCloudpaymentsPaymentResponse {
   amount: number;
   amountWithoutDiscount: number;
   email: string;
-  firstCheckbox: string;
-  secondCheckbox: string;
   status: string;
 }
 
@@ -598,6 +603,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: payment_set_email,
         type: ContentType.Json,
+        ...params,
+      }),
+  };
+  prices = {
+    /**
+     * No description
+     *
+     * @tags prices
+     * @name PricesList
+     * @request GET:/prices
+     */
+    pricesList: (params: RequestParams = {}) =>
+      this.request<PricesResponse, ErrorResponse>({
+        path: `/prices`,
+        method: "GET",
         ...params,
       }),
   };

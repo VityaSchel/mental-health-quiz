@@ -1,12 +1,16 @@
+import React from 'react'
 import Caption from '@/entities/typography/caption'
 import styles from './styles.module.scss'
 import Headline from '@/entities/typography/headline'
 import { CvBasedQuestionnaireResponse } from '@/shared/api/ApiDefinitions'
 import GetPlan from '@/features/quiz-results/get-plan'
+import { PaymentDetailsContext } from '@/pages/quiz/result'
 
 export default function Info({ cv }: {
   cv: CvBasedQuestionnaireResponse
 }) {
+  const paymentDetails = React.useContext(PaymentDetailsContext)
+
   return (
     <div className={styles.info}>
       <Caption>Тест помог выявить</Caption>
@@ -41,8 +45,8 @@ export default function Info({ cv }: {
       <div className={styles.actions}>
         <GetPlan />
         <div className={styles.price}>
-          <span className={styles.specialOffer}>27 рублей</span>
-          <span className={styles.oldPrice}>500 рублей</span>
+          <span className={styles.specialOffer}>{paymentDetails?.amount} рублей</span>
+          <span className={styles.oldPrice}>{paymentDetails?.amountWithoutDiscount} рублей</span>
         </div>
       </div>
     </div>
