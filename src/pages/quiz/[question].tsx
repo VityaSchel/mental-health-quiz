@@ -39,8 +39,8 @@ export default function Quiz() {
     if (lastQuestion) {
       setLoadingResults(true)
       const [cv] = await Promise.all([
-        getCv(newFormData),
         new Promise(resolve => setTimeout(resolve, 5000)),
+        getCv(newFormData),
       ])
       const results = JSON.stringify(cv)
       window.localStorage.setItem('cv_results', results)
@@ -71,7 +71,7 @@ export default function Quiz() {
             />
           </>
         )}
-        <LoadingResults visible={loadingResults} />
+        <LoadingResults visible={true} />
       </QuizPageWrapper>
       <div style={{ display: 'none' }} dangerouslySetInnerHTML={{ __html: process.env.NEXT_PUBLIC_METRICA_HOMEPAGE ?? '<div></div>' }} />
     </>

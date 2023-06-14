@@ -34,7 +34,7 @@
     letter-spacing: 0.02em;
     font-feature-settings: 'pnum' on, 'lnum' on;
 
-    @include arcRoot(8px, 320px - 8px, variables.$primary-color, rgb(235, 230, 226), variables.$background-color, variables.$primary-color, 90deg, none, 300ms);
+    @include arcRoot(8px, 320px - 8px, variables.$primary-color, rgb(235, 230, 226), variables.$background-color, variables.$primary-color, 90deg, none, 0ms);
   }
 
   .label {
