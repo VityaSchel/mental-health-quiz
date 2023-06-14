@@ -71,7 +71,7 @@ export default function Quiz() {
             />
           </>
         )}
-        <LoadingResults visible={true} />
+        <LoadingResults visible={loadingResults} />
       </QuizPageWrapper>
       <div style={{ display: 'none' }} dangerouslySetInnerHTML={{ __html: process.env.NEXT_PUBLIC_METRICA_HOMEPAGE ?? '<div></div>' }} />
     </>
