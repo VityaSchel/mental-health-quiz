@@ -11,6 +11,7 @@ import LoadingResults from '@/widgets/loading-results'
 import { getCv } from '@/shared/api'
 import { JSONParse } from '@/shared/utils/safe-json-parse'
 import { CvBasedQuestionnaireBody, CvBasedQuestionnaireResponse } from '@/shared/api/ApiDefinitions'
+import Head from 'next/head'
 
 const questionsLength = quizQuestions.length
 export default function Quiz() {
@@ -73,7 +74,9 @@ export default function Quiz() {
         )}
         <LoadingResults visible={loadingResults} />
       </QuizPageWrapper>
-      <div style={{ display: 'none' }} dangerouslySetInnerHTML={{ __html: process.env.NEXT_PUBLIC_METRICA_HOMEPAGE ?? '<div></div>' }} />
+      <Head>
+        <script type="text/javascript" dangerouslySetInnerHTML={{ __html: `!function(){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src='https://vk.com/js/api/openapi.js?169',t.onload=function(){VK.Retargeting.Init("${process.env.NEXT_PUBLIC_VK_METRICA_RESULT ?? ''}"), VK.Retargeting.Hit()},document.head.appendChild(t)}();` }}></script><noscript dangerouslySetInnerHTML={{ __html: `<img src="https://vk.com/rtrg?p=${process.env.NEXT_PUBLIC_VK_METRICA_RESULT ?? ''}" style="position:fixed; left:-999px;" alt="" />` }}></noscript>
+      </Head>
     </>
   )
 }
