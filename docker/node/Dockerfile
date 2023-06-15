@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM node:16.13.0-alpine as install
+FROM node:16.14.0-alpine as install
 
 WORKDIR /app
 
@@ -27,7 +27,7 @@ ARG NEXT_PUBLIC_METRICA_PAY_MODAL
 
 WORKDIR /app
 
-COPY ../docker/node .
+COPY . .
 
 RUN echo NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL >> .env.local && \
     echo NEXT_PUBLIC_DATA_POLICY=$NEXT_PUBLIC_DATA_POLICY >> .env.local && \
