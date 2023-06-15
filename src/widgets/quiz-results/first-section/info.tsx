@@ -5,6 +5,7 @@ import Headline from '@/entities/typography/headline'
 import { CvBasedQuestionnaireResponse } from '@/shared/api/ApiDefinitions'
 import GetPlan from '@/features/quiz-results/get-plan'
 import { PaymentDetailsContext } from '@/pages/quiz/result'
+import plural from 'plural-ru'
 
 export default function Info({ cv }: {
   cv: CvBasedQuestionnaireResponse
@@ -44,10 +45,12 @@ export default function Info({ cv }: {
       </p>
       <div className={styles.actions}>
         <GetPlan />
-        <div className={styles.price}>
-          <span className={styles.specialOffer}>{paymentDetails?.amount} рублей</span>
-          <span className={styles.oldPrice}>{paymentDetails?.amountWithoutDiscount} рублей</span>
-        </div>
+        {paymentDetails && (
+          <div className={styles.price}>
+            <span className={styles.specialOffer}>{paymentDetails.amount} {plural(paymentDetails.amount, 'рубль', 'рубля', 'рублей')}</span>
+            <span className={styles.oldPrice}>{paymentDetails.amountWithoutDiscount} {plural(paymentDetails.amountWithoutDiscount, 'рубль', 'рубля', 'рублей')}</span>
+          </div>
+        )}
       </div>
     </div>
   )
