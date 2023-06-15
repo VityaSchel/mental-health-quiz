@@ -1,11 +1,11 @@
 import React from 'react'
 import styles from './styles.module.scss'
 import { Modal } from '@/shared/ui/modal'
-import { Formik } from 'formik'
+import { Formik, FormikProps } from 'formik'
 import * as Yup from 'yup'
 import Input from '@x5io/flat-uikit/dist/input'
 import { Button } from '@/shared/ui/button'
-import { ErrorResponse, PayWidgetCloudpaymentsResponse, PaymentRequired, WidgetCloudpaymentsPaymentResponse } from '@/shared/api/ApiDefinitions'
+import { AdvertisingCompanyResponse, ErrorResponse, PayWidgetCloudpaymentsResponse, PaymentRequired, WidgetCloudpaymentsPaymentResponse } from '@/shared/api/ApiDefinitions'
 import Checkbox from '@x5io/flat-uikit/dist/checkbox'
 import { hasCheckboxes } from '@x5io/ads_parameter'
 import { useRouter } from 'next/router'
@@ -18,6 +18,15 @@ export function GetPlanModal({ visible, onClose }: {
   const [email, setEmail] = React.useState('')
   const [paymentId, setPaymentId] = React.useState('')
   const [isSuccess, setIsSuccess] = React.useState(false)
+  const [checkboxesVisible, setCheckboxesVisible] = React.useState(false)
+  const router = useRouter()
+
+  const areCheckboxesVisible = async (): Promise<boolean> => {
+    const ads = router.query.ads
+    const request = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + `/advertising_companies/${ads}`)
+    const response = await request.json() as AdvertisingCompanyResponse
+    return hasCheckboxes(response.status === 'active')
+  }
 
   const handleClose = () => {
     setEmail('')
@@ -44,6 +53,7 @@ export function GetPlanModal({ visible, onClose }: {
                       <Screen2
                         paymentId={paymentId}
                         email={email}
+                        checkboxesVisible={checkboxesVisible}
                         onCancel={() => {
                           setEmail('')
                           setPaymentId('')
@@ -53,7 +63,8 @@ export function GetPlanModal({ visible, onClose }: {
                     )
                     : (
                       <Screen1
-                        onSubmit={(email, paymentId) => {
+                        onSubmit={async (email, paymentId) => {
+                          setCheckboxesVisible(await areCheckboxesVisible())
                           setEmail(email)
                           setPaymentId(paymentId)
                         }}
@@ -137,27 +148,23 @@ export function Screen1({ onSubmit }: {
     </Formik>
   )
 }
-
-export function Screen2({ email, paymentId, onCancel, onSuccess }: {
+export function Screen2({ email, paymentId, checkboxesVisible, onCancel, onSuccess }: {
   paymentId: string
   email: string
+  checkboxesVisible: boolean
   onCancel: () => any
   onSuccess: () => any
 }) {
-  const router = useRouter()
-  const [checkboxesVisible, setCheckboxesVisible] = React.useState(true)
   const initialPaymentDetails = React.useContext(PaymentDetailsContext)
-
+  const formikRef = React.useRef<FormikProps<{ firstCheckbox: boolean, secondCheckbox: boolean }>>()
+  const isAutoSubmitted = React.useRef(false)
+  
   React.useEffect(() => {
-    checkAds()
-  }, [router.query.ads])
-
-  const checkAds = async () => {
-    const ads = router.query.ads
-    const request = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + `/advertising_companies/${ads}`)
-    const response = await request.json()
-    setCheckboxesVisible(hasCheckboxes(response.status === 'in_process'))
-  }
+    if (!checkboxesVisible && formikRef.current && !formikRef.current.isSubmitting && !isAutoSubmitted.current) {
+      isAutoSubmitted.current = true
+      formikRef.current.submitForm()
+    }
+  }, [checkboxesVisible, formikRef])
 
   return (
     <Formik
@@ -174,22 +181,33 @@ export function Screen2({ email, paymentId, onCancel, onSuccess }: {
           }))
         })
       }
+      innerRef={formikRef as any}
       validateOnChange={false}
-      onSubmit={async (values, { setSubmitting }) => {
-        try {
-          const request = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + `/payments/${paymentId}/cloudpayments/widget/pay`)
-          const response = await request.json() as PayWidgetCloudpaymentsResponse
-          // @ts-expect-error CP has no TS declarations
-          const widget = new cp.CloudPayments()
-          widget.pay('charge',
-            response.cloudpayments,
-            { onSuccess: () => onSuccess() }
-          )
-          setSubmitting(false)
-        } catch (e) {
-          console.error(e)
-          setSubmitting(false)
-        }
+      onSubmit={values => {
+        // eslint-disable-next-line no-async-promise-executor
+        return new Promise<void>(async resolve => {
+          try {
+            const request = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + `/payments/${paymentId}/cloudpayments/widget/pay`)
+            const response = await request.json() as PayWidgetCloudpaymentsResponse
+            // @ts-expect-error CP has no TS declarations
+            const widget = new cp.CloudPayments()
+            widget.pay('charge',
+              response.cloudpayments,
+              { 
+                onSuccess: () => {
+                  onSuccess()
+                  resolve()
+                },
+                onFail: () => {
+                  resolve()
+                }
+              }
+            )
+          } catch (e) {
+            console.error('Error while submitting form', e)
+            resolve()
+          }
+        })
       }}
     >
       {({
