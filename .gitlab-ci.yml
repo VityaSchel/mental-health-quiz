@@ -78,20 +78,18 @@ install:
       --cache-from $DOCKER_REGISTRY_PATH:$CI_COMMIT_REF_NAME-$PROJECT_NAME
       --target builder
       --tag $DOCKER_REGISTRY_PATH:$CI_COMMIT_REF_NAME-$PROJECT_NAME
+      --build-arg NEXT_PUBLIC_BACKEND_URL="$NEXT_PUBLIC_BACKEND_URL"
+      --build-arg NEXT_PUBLIC_DATA_POLICY="$NEXT_PUBLIC_DATA_POLICY"
+      --build-arg NEXT_PUBLIC_TARIFFS="$NEXT_PUBLIC_TARIFFS"
+      --build-arg NEXT_PUBLIC_USER_AGREEMENT="$NEXT_PUBLIC_USER_AGREEMENT"
+      --build-arg NEXT_PUBLIC_CONTACT_EMAIL="$NEXT_PUBLIC_CONTACT_EMAIL"
+      --build-arg NEXT_PUBLIC_COMPANY_NAME="$NEXT_PUBLIC_COMPANY_NAME"
+      --build-arg NEXT_PUBLIC_COMPANY_INN="$NEXT_PUBLIC_COMPANY_INN"
+      --build-arg NEXT_PUBLIC_COMPANY_OGRNIP="$NEXT_PUBLIC_COMPANY_OGRNIP"
+      --build-arg NEXT_PUBLIC_METRICA_HOMEPAGE="$NEXT_PUBLIC_METRICA_HOMEPAGE"
+      --build-arg NEXT_PUBLIC_METRICA_RESULTS_PAGE="$NEXT_PUBLIC_METRICA_RESULTS_PAGE"
+      --build-arg NEXT_PUBLIC_METRICA_PAY_MODAL="$NEXT_PUBLIC_METRICA_PAY_MODAL"
       .
-#      --build-arg NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL
-#      --build-arg NEXT_PUBLIC_DATA_POLICY=$NEXT_PUBLIC_DATA_POLICY
-#      --build-arg NEXT_PUBLIC_TARIFFS=$NEXT_PUBLIC_TARIFFS
-#      --build-arg NEXT_PUBLIC_USER_AGREEMENT=$NEXT_PUBLIC_USER_AGREEMENT
-#      --build-arg NEXT_PUBLIC_CONTACT_EMAIL=$NEXT_PUBLIC_CONTACT_EMAIL
-#      --build-arg NEXT_PUBLIC_BOT_LINK=$NEXT_PUBLIC_BOT_LINK
-#      --build-arg NEXT_PUBLIC_TEXT_SECOND_CHECKBOX="$NEXT_PUBLIC_TEXT_SECOND_CHECKBOX"
-#      --build-arg NEXT_PUBLIC_MAIN_PAGE_TEXT_SUBSCRIPTION_PRICES="$NEXT_PUBLIC_MAIN_PAGE_TEXT_SUBSCRIPTION_PRICES"
-#      --build-arg NEXT_PUBLIC_PAY_PAGE_TEXT_SUBSCRIPTION_PRICES="$NEXT_PUBLIC_PAY_PAGE_TEXT_SUBSCRIPTION_PRICES"
-#      --build-arg NEXT_PUBLIC_COMPANY_NAME="$NEXT_PUBLIC_COMPANY_NAME"
-#      --build-arg NEXT_PUBLIC_COMPANY_INN=$NEXT_PUBLIC_COMPANY_INN
-#      --build-arg NEXT_PUBLIC_COMPANY_OGRNIP=$NEXT_PUBLIC_COMPANY_OGRNIP
-#      .
 
     - rm -rf .next/cache
 
@@ -124,19 +122,16 @@ build_cleanmindpro:
   extends: .build_production_template
   variables:
     PROJECT_NAME: cleanmindpro
-
-#    NEXT_PUBLIC_BACKEND_URL: https://api.prank.guru
-#    NEXT_PUBLIC_DATA_POLICY: https://docs.google.com/document/d/11ntwB7fqvLM1RYB1-W0y4046AkH3e8qhNb3qyWWETo8/edit?usp=sharing
-#    NEXT_PUBLIC_TARIFFS: https://cdn-pranks.x5.money/tariffs.pdf
-#    NEXT_PUBLIC_USER_AGREEMENT: https://docs.google.com/document/d/1wUCaCHZGo42OHUtUZcL2e1y80lrDDIext-Qs7N5UFZw/edit?usp=sharing
-#    NEXT_PUBLIC_CONTACT_EMAIL: promohelper@proton.me
-#    NEXT_PUBLIC_BOT_LINK: t.me/super_prank_bot
-#    NEXT_PUBLIC_TEXT_SECOND_CHECKBOX: 1 рубль за получение пробного доступа. В дальнейшем, через 72 часа после получения пробного доступа, списывается 985 рублей за каждые 14 дней использования сервиса.
-#    NEXT_PUBLIC_MAIN_PAGE_TEXT_SUBSCRIPTION_PRICES: Далее 985 ₽ за каждые 14 дней
-#    NEXT_PUBLIC_PAY_PAGE_TEXT_SUBSCRIPTION_PRICES: Далее 985 рублей за каждые 14 дней или 195 рублей за каждые 3 дня
-#    NEXT_PUBLIC_COMPANY_NAME: ИП Рякин Егор Андреевич
-#    NEXT_PUBLIC_COMPANY_INN: 471910121614
-#    NEXT_PUBLIC_COMPANY_OGRNIP: 323470400012068
+    NEXT_PUBLIC_BACKEND_URL: https://api.cleanmind.pro
+    NEXT_PUBLIC_DATA_POLICY: https://example.org
+    NEXT_PUBLIC_TARIFFS: https://example.org
+    NEXT_PUBLIC_USER_AGREEMENT: https://example.org
+    NEXT_PUBLIC_CONTACT_EMAIL: promohelper@proton.me
+    NEXT_PUBLIC_COMPANY_NAME: ИП Круковский Андрей Николаевич
+    NEXT_PUBLIC_COMPANY_OGRNIP: 322784700279882
+    NEXT_PUBLIC_METRICA_HOMEPAGE: <script type="text/javascript">!function(){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src='https://vk.com/js/api/openapi.js?169',t.onload=function(){VK.Retargeting.Init("VK-RTRG-1753721-6774X"),VK.Retargeting.Hit()},document.head.appendChild(t)}();</script><noscript><img src="https://vk.com/rtrg?p=VK-RTRG-1753721-6774X" style="position:fixed; left:-999px;" alt=""/></noscript>
+    NEXT_PUBLIC_METRICA_RESULTS_PAGE: <script type="text/javascript">!function(){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src='https://vk.com/js/api/openapi.js?169',t.onload=function(){VK.Retargeting.Init("VK-RTRG-1753716-br2Vp"),VK.Retargeting.Hit()},document.head.appendChild(t)}();</script><noscript><img src="https://vk.com/rtrg?p=VK-RTRG-1753716-br2Vp" style="position:fixed; left:-999px;" alt=""/></noscript>
+    NEXT_PUBLIC_METRICA_PAY_MODAL: <script type="text/javascript">!function(){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src='https://vk.com/js/api/openapi.js?169',t.onload=function(){VK.Retargeting.Init("VK-RTRG-1753697-gaHYj"),VK.Retargeting.Hit()},document.head.appendChild(t)}();</script><noscript><img src="https://vk.com/rtrg?p=VK-RTRG-1753697-gaHYj" style="position:fixed; left:-999px;" alt=""/></noscript>
 
 deploy_production_cleanmindpro:
   extends: .deploy_production_template
