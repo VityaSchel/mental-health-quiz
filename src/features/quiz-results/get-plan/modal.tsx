@@ -17,13 +17,11 @@ export function GetPlanModal({ visible, onClose }: {
 }) {
   const [email, setEmail] = React.useState('')
   const [paymentId, setPaymentId] = React.useState('')
-  const [paymentDetails, setPaymentDetails] = React.useState<WidgetCloudpaymentsPaymentResponse | null>(null)
   const [isSuccess, setIsSuccess] = React.useState(false)
 
   const handleClose = () => {
     setEmail('')
     setPaymentId('')
-    setPaymentDetails(null)
     setIsSuccess(false)
     onClose()
   }
@@ -41,26 +39,23 @@ export function GetPlanModal({ visible, onClose }: {
                   <span className={styles.h2}>Укажите e-mail, куда мы отправим ваш персональный план улучшения ментального здоровья</span>
                 </div>
                 {
-                  email && paymentDetails
+                  email
                     ? (
                       <Screen2
                         paymentId={paymentId}
                         email={email}
-                        paymentDetails={paymentDetails}
                         onCancel={() => {
                           setEmail('')
                           setPaymentId('')
-                          setPaymentDetails(null)
                         }}
                         onSuccess={() => setIsSuccess(true)}
                       />
                     )
                     : (
                       <Screen1
-                        onSubmit={(email, paymentId, paymentDetails) => {
+                        onSubmit={(email, paymentId) => {
                           setEmail(email)
                           setPaymentId(paymentId)
-                          setPaymentDetails(paymentDetails)
                         }}
                       />
                     )
@@ -75,7 +70,7 @@ export function GetPlanModal({ visible, onClose }: {
 }
 
 export function Screen1({ onSubmit }: {
-  onSubmit: (email: string, paymentId: string, paymentDetails: WidgetCloudpaymentsPaymentResponse) => any
+  onSubmit: (email: string, paymentId: string) => any
 }) {
   return (
     <Formik
@@ -109,9 +104,7 @@ export function Screen1({ onSubmit }: {
                 email: values.email
               })
             })
-            const cpRequest = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + `/payments/${response.paymentId}/cloudpayments/widget`)
-            const cpResponse = await cpRequest.json() as WidgetCloudpaymentsPaymentResponse
-            onSubmit(values.email, response.paymentId, cpResponse)
+            onSubmit(values.email, response.paymentId)
             setSubmitting(false)
           }
         } catch (e) {
@@ -145,10 +138,9 @@ export function Screen1({ onSubmit }: {
   )
 }
 
-export function Screen2({ email, paymentId, paymentDetails, onCancel, onSuccess }: {
+export function Screen2({ email, paymentId, onCancel, onSuccess }: {
   paymentId: string
   email: string
-  paymentDetails: WidgetCloudpaymentsPaymentResponse
   onCancel: () => any
   onSuccess: () => any
 }) {
@@ -191,7 +183,7 @@ export function Screen2({ email, paymentId, paymentDetails, onCancel, onSuccess 
           const widget = new cp.CloudPayments()
           widget.pay('charge',
             response.cloudpayments,
-            { onSuccess: onSuccess() }
+            { onSuccess: () => onSuccess() }
           )
           setSubmitting(false)
         } catch (e) {

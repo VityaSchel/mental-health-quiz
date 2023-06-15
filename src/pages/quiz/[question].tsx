@@ -41,7 +41,6 @@ export default function Quiz() {
       const [cv] = await Promise.all([
         getCv(newFormData),
         new Promise(resolve => setTimeout(resolve, 5000)),
-        // getCv(newFormData),
       ])
       const results = JSON.stringify(cv)
       window.localStorage.setItem('cv_results', results)
