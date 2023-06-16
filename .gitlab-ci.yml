@@ -86,9 +86,11 @@ install:
       --build-arg NEXT_PUBLIC_COMPANY_NAME="$NEXT_PUBLIC_COMPANY_NAME"
       --build-arg NEXT_PUBLIC_COMPANY_INN="$NEXT_PUBLIC_COMPANY_INN"
       --build-arg NEXT_PUBLIC_COMPANY_OGRNIP="$NEXT_PUBLIC_COMPANY_OGRNIP"
-      --build-arg NEXT_PUBLIC_METRICA_HOMEPAGE="$NEXT_PUBLIC_METRICA_HOMEPAGE"
-      --build-arg NEXT_PUBLIC_METRICA_RESULTS_PAGE="$NEXT_PUBLIC_METRICA_RESULTS_PAGE"
-      --build-arg NEXT_PUBLIC_METRICA_PAY_MODAL="$NEXT_PUBLIC_METRICA_PAY_MODAL"
+      --build-arg NEXT_PUBLIC_YANDEX_METRICA_ID="$NEXT_PUBLIC_YANDEX_METRICA_ID"
+      --build-arg NEXT_PUBLIC_YANDEX_METRICA_GOAL_PAY_BEFORE_CHECKBOXES="$NEXT_PUBLIC_YANDEX_METRICA_GOAL_PAY_BEFORE_CHECKBOXES"
+      --build-arg NEXT_PUBLIC_YANDEX_METRICA_GOAL_PAY_AFTER_CHECKBOXES="$NEXT_PUBLIC_YANDEX_METRICA_GOAL_PAY_AFTER_CHECKBOXES"
+      --build-arg NEXT_PUBLIC_VK_METRICA_HOMEPAGE="$NEXT_PUBLIC_VK_METRICA_HOMEPAGE"
+      --build-arg NEXT_PUBLIC_VK_METRICA_RESULT="$NEXT_PUBLIC_VK_METRICA_RESULT"
       .
 
     - rm -rf .next/cache
@@ -129,9 +131,11 @@ build_cleanmindpro:
     NEXT_PUBLIC_CONTACT_EMAIL: promohelper@proton.me
     NEXT_PUBLIC_COMPANY_NAME: ИП Круковский Андрей Николаевич
     NEXT_PUBLIC_COMPANY_OGRNIP: 322784700279882
-    NEXT_PUBLIC_METRICA_HOMEPAGE: <script type="text/javascript">!function(){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src='https://vk.com/js/api/openapi.js?169',t.onload=function(){VK.Retargeting.Init("VK-RTRG-1753721-6774X"),VK.Retargeting.Hit()},document.head.appendChild(t)}();</script><noscript><img src="https://vk.com/rtrg?p=VK-RTRG-1753721-6774X" style="position:fixed; left:-999px;" alt=""/></noscript>
-    NEXT_PUBLIC_METRICA_RESULTS_PAGE: <script type="text/javascript">!function(){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src='https://vk.com/js/api/openapi.js?169',t.onload=function(){VK.Retargeting.Init("VK-RTRG-1753716-br2Vp"),VK.Retargeting.Hit()},document.head.appendChild(t)}();</script><noscript><img src="https://vk.com/rtrg?p=VK-RTRG-1753716-br2Vp" style="position:fixed; left:-999px;" alt=""/></noscript>
-    NEXT_PUBLIC_METRICA_PAY_MODAL: <script type="text/javascript">!function(){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src='https://vk.com/js/api/openapi.js?169',t.onload=function(){VK.Retargeting.Init("VK-RTRG-1753697-gaHYj"),VK.Retargeting.Hit()},document.head.appendChild(t)}();</script><noscript><img src="https://vk.com/rtrg?p=VK-RTRG-1753697-gaHYj" style="position:fixed; left:-999px;" alt=""/></noscript>
+    NEXT_PUBLIC_YANDEX_METRICA_ID: 93986310
+#    NEXT_PUBLIC_YANDEX_METRICA_GOAL_PAY_BEFORE_CHECKBOXES:
+#    NEXT_PUBLIC_YANDEX_METRICA_GOAL_PAY_AFTER_CHECKBOXES:
+#    NEXT_PUBLIC_VK_METRICA_HOMEPAGE:
+#    NEXT_PUBLIC_VK_METRICA_RESULT:
 
 deploy_production_cleanmindpro:
   extends: .deploy_production_template
