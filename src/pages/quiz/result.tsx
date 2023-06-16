@@ -9,6 +9,7 @@ import { CvBasedQuestionnaireResponse, PricesResponse } from '@/shared/api/ApiDe
 import { JSONParse } from '@/shared/utils/safe-json-parse'
 import Script from 'next/script'
 import { LastSection } from '@/widgets/quiz-results/last-section'
+import Head from 'next/head'
 
 // @ts-expect-error It will not render until filled
 export const CVResultContext = React.createContext<CvBasedQuestionnaireResponse>()
@@ -56,7 +57,9 @@ export default function Result() {
         </PaymentDetailsContext.Provider>
       </CVResultContext.Provider>
       <Script src='https://widget.cloudpayments.ru/bundles/cloudpayments.js' />
-      <div style={{ display: 'none' }} dangerouslySetInnerHTML={{ __html: process.env.NEXT_PUBLIC_METRICA_HOMEPAGE ?? '<div></div>' }} />
+      <Head>
+        <script type="text/javascript" dangerouslySetInnerHTML={{ __html: `!function(){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src='https://vk.com/js/api/openapi.js?169',t.onload=function(){VK.Retargeting.Init("${process.env.NEXT_PUBLIC_VK_METRICA_HOMEPAGE ?? ''}"), VK.Retargeting.Hit()},document.head.appendChild(t)}();` }}></script><noscript dangerouslySetInnerHTML={{ __html: `<img src="https://vk.com/rtrg?p=${process.env.NEXT_PUBLIC_VK_METRICA_HOMEPAGE ?? ''}" style="position:fixed; left:-999px;" alt="" />`}}></noscript>
+      </Head>
     </>
   )
 }

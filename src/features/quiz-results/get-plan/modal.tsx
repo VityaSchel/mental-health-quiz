@@ -67,6 +67,7 @@ export function GetPlanModal({ visible, onClose }: {
                           setCheckboxesVisible(await areCheckboxesVisible())
                           setEmail(email)
                           setPaymentId(paymentId)
+                          eval(process.env.NEXT_PUBLIC_YANDEX_METRICA_GOAL_PAY_BEFORE_CHECKBOXES ?? '')
                         }}
                       />
                     )
@@ -75,7 +76,6 @@ export function GetPlanModal({ visible, onClose }: {
             )
         }
       </Modal>
-      {visible && <div style={{ display: 'none' }} dangerouslySetInnerHTML={{ __html: process.env.NEXT_PUBLIC_METRICA_PAY_MODAL ?? '<div></div>' }} />}
     </>
   )
 }
@@ -183,7 +183,8 @@ export function Screen2({ email, paymentId, checkboxesVisible, onCancel, onSucce
       }
       innerRef={formikRef as any}
       validateOnChange={false}
-      onSubmit={values => {
+      onSubmit={() => {
+        eval(process.env.NEXT_PUBLIC_YANDEX_METRICA_GOAL_PAY_AFTER_CHECKBOXES ?? '')
         // eslint-disable-next-line no-async-promise-executor
         return new Promise<void>(async resolve => {
           try {
