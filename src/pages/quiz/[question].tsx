@@ -75,7 +75,7 @@ export default function Quiz() {
         <LoadingResults visible={loadingResults} />
       </QuizPageWrapper>
       <Head>
-        <script type="text/javascript" dangerouslySetInnerHTML={{ __html: `!function(){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src='https://vk.com/js/api/openapi.js?169',t.onload=function(){VK.Retargeting.Init("${process.env.NEXT_PUBLIC_VK_METRICA_HOMEPAGE ?? ''}"), VK.Retargeting.Hit()},document.head.appendChild(t)}();` }}></script><noscript dangerouslySetInnerHTML={{ __html: `<img src="https://vk.com/rtrg?p=${process.env.NEXT_PUBLIC_VK_METRICA_HOMEPAGE ?? ''}" style="position:fixed; left:-999px;" alt="" />` }}></noscript>
+        <script type="text/javascript" dangerouslySetInnerHTML={{ __html: `!function(){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src='https://vk.com/js/api/openapi.js?169',t.onload=function(){VK.Retargeting.Init("${process.env.NEXT_PUBLIC_VK_METRIC_HOMEPAGE ?? ''}"), VK.Retargeting.Hit()},document.head.appendChild(t)}();` }}></script><noscript dangerouslySetInnerHTML={{ __html: `<img src="https://vk.com/rtrg?p=${process.env.NEXT_PUBLIC_VK_METRIC_HOMEPAGE ?? ''}" style="position:fixed; left:-999px;" alt="" />` }}></noscript>
       </Head>
     </>
   )

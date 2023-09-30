@@ -14,13 +14,13 @@ export default function Document() {
         k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
         (window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
         
-        ym(${process.env.NEXT_PUBLIC_YANDEX_METRICA_ID ?? '0'}, 'init', {
+        ym(${process.env.NEXT_PUBLIC_YANDEX_METRIC_ID ?? '0'}, 'init', {
               clickmap:true,
               trackLinks:true,
               accurateTrackBounce:true
         });` }}>
         </script>
-        <noscript><div dangerouslySetInnerHTML={{ __html: `<img src='https://mc.yandex.ru/watch/${process.env.NEXT_PUBLIC_YANDEX_METRICA_ID ?? '0'}' style='position:absolute; left:-9999px;' alt=''></img>` }}></div></noscript>
+        <noscript><div dangerouslySetInnerHTML={{ __html: `<img src='https://mc.yandex.ru/watch/${process.env.NEXT_PUBLIC_YANDEX_METRIC_ID ?? '0'}' style='position:absolute; left:-9999px;' alt=''></img>` }}></div></noscript>
       </Head>
       <body>
         <Main />
