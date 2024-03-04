@@ -235,7 +235,7 @@ export function Screen2({ email, paymentId, checkboxesVisible, onCancel, onSucce
               name='firstCheckbox'
               error={errors.firstCheckbox}
             >
-              {initialPaymentDetails?.firstCheckbox}
+              <p dangerouslySetInnerHTML={{__html: initialPaymentDetails?.firstCheckbox ?? ''}} />
             </Checkbox>
             <Checkbox
               value={values.secondCheckbox}
@@ -243,7 +243,7 @@ export function Screen2({ email, paymentId, checkboxesVisible, onCancel, onSucce
               name='secondCheckbox'
               error={errors.secondCheckbox}
             >
-              {initialPaymentDetails?.secondCheckbox}
+              <p dangerouslySetInnerHTML={{__html: initialPaymentDetails?.secondCheckbox ?? ''}} />
             </Checkbox>
           </>)}
           <Button variant='contained' type="submit" disabled={isSubmitting || (checkboxesVisible && (!values.firstCheckbox || !values.secondCheckbox))}>
