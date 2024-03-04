@@ -1674,17 +1674,15 @@
     "@typescript-eslint/types" "5.58.0"
     eslint-visitor-keys "^3.3.0"
 
-"@x5io/ads_parameter@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.npmjs.org/@x5io/ads_parameter/-/ads_parameter-1.0.3.tgz"
-  integrity sha512-0XEIo6Qo6cN5PffGjv9rtptzkzJ2m/GptyJyur99+HPGeqEOOZnwfhbQWHi89VWVQNSJuhkQjxe8STTc4hIt1g==
+"@x5io/ads_parameter@github:VityaSchel/x5io-ads-parameter":
+  version "1.0.4"
+  resolved "git+ssh://git@github.com/VityaSchel/x5io-ads-parameter.git#fc09ef565a871c9f97574f7f8d506adeea636653"
   dependencies:
     js-cookie "^3.0.1"
 
-"@x5io/flat-uikit@^1.1.3":
+"@x5io/flat-uikit@github:VityaSchel/x5io-flat-ui-kit":
   version "1.1.3"
-  resolved "https://registry.npmjs.org/@x5io/flat-uikit/-/flat-uikit-1.1.3.tgz"
-  integrity sha512-R87/4fUclVrwZT/kq1ZuR8gQtokePa2dlbvYYRCsW+4766c2xwwyVgEJ2OdWRoUqCDo95Db/owpHDKfcDCKnow==
+  resolved "git+ssh://git@github.com/VityaSchel/x5io-flat-ui-kit.git#62be630ec5735e4db11334a2f6bba54007c7a7f3"
   dependencies:
     "@emotion/react" "^11.10.6"
     "@emotion/styled" "^11.10.6"

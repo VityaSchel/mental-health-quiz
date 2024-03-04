@@ -22,10 +22,11 @@ export function GetPlanModal({ visible, onClose }: {
   const router = useRouter()
 
   const areCheckboxesVisible = async (): Promise<boolean> => {
-    const ads = router.query.ads
-    const request = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + `/advertising_companies/${ads}`)
-    const response = await request.json() as AdvertisingCompanyResponse
-    return hasCheckboxes(response.status === 'active')
+    // const ads = router.query.ads
+    // const request = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + `/advertising_companies/${ads}`)
+    // const response = await request.json() as AdvertisingCompanyResponse
+    // return hasCheckboxes(response.status === 'active')
+    return true
   }
 
   const handleClose = () => {
@@ -95,33 +96,33 @@ export function Screen1({ onSubmit }: {
       }
       validateOnChange={false}
       onSubmit={async (values, { setSubmitting, setErrors }) => {
-        try {
-          const request = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/send_plan_mail', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              email: values.email
-            })
-          })
-          if (request.status === 400 || request.status === 500) {
-            const response = await request.json() as ErrorResponse
-            setErrors({ email: response.message || 'Ошибка' })
-          } else {
-            const response = await request.json() as PaymentRequired
-            await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + `/payments/${response.paymentId}/set-email`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                email: values.email
-              })
-            })
-            onSubmit(values.email, response.paymentId)
-            setSubmitting(false)
-          }
-        } catch (e) {
-          setErrors({ email: 'Ошибка' })
-          setSubmitting(false)
-        }
+        // try {
+        //   const request = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/send_plan_mail', {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify({
+        //       email: values.email
+        //     })
+        //   })
+        //   if (request.status === 400 || request.status === 500) {
+        //     const response = await request.json() as ErrorResponse
+        //     setErrors({ email: response.message || 'Ошибка' })
+        //   } else {
+        //     const response = await request.json() as PaymentRequired
+        //     await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + `/payments/${response.paymentId}/set-email`, {
+        //       method: 'POST',
+        //       headers: { 'Content-Type': 'application/json' },
+        //       body: JSON.stringify({
+        //         email: values.email
+        //       })
+        //     })
+        onSubmit(values.email, '')
+        //     setSubmitting(false)
+        //   }
+        // } catch (e) {
+        //   setErrors({ email: 'Ошибка' })
+        //   setSubmitting(false)
+        // }
       }}
     >
       {({

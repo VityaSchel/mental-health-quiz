@@ -36,8 +36,14 @@ export default function Result() {
   }, [])
 
   const getPrices = async () => {
-    const request = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/prices')
-    const response = await request.json() as PricesResponse
+    // const request = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/prices')
+    // const response = await request.json() as PricesResponse
+    const response: PricesResponse = {
+      amount: 699,
+      amountWithoutDiscount: 1999,
+      firstCheckbox: 'Я согласен на обработку персональных данных',
+      secondCheckbox: 'Я согласен с условиями оферты',
+    }
     setPaymentDetails(response)
   }
 
